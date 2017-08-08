@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Films</string>
+
+    <!-- Titles -->
+    <string name="title_now_showing">Now showing</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_favourites">Favourites</string>
+
 </resources>
