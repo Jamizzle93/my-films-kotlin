@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.mysticwater.myfilms.nowshowing.NowShowingFragment
+import com.mysticwater.myfilms.nowshowing.NowShowingPresenter
+import com.mysticwater.myfilms.util.ActivityUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_now_showing -> {
                 // TODO - Show fragment
+                showNowShowingFragment()
             }
             R.id.menu_upcoming -> {
                 // TODO - Show fragment
@@ -31,4 +35,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun showNowShowingFragment() {
+        var nowShowingFragment = NowShowingFragment.newInstance()
+        ActivityUtils.addFragmentToActivity(supportFragmentManager, nowShowingFragment, R.id.layout_content)
+
+        var nowShowingPresenter: NowShowingPresenter = NowShowingPresenter(nowShowingFragment)
+    }
+
 }
