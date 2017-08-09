@@ -1,9 +1,8 @@
 package com.mysticwater.myfilms
 
-import android.content.Context
 
-interface BaseView {
+interface BaseView<T> {
 
-    fun getContext(): Context
+    var presenter: T?
 
 }

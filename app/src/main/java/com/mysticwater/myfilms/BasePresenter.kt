@@ -1,8 +1,7 @@
 package com.mysticwater.myfilms
 
-interface BasePresenter<in V : BaseView> {
+interface BasePresenter {
 
-    fun attachView(view: V)
+    fun start()
 
-    fun detachView()
 }
