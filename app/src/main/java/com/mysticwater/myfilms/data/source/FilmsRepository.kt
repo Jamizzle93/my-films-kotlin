@@ -14,9 +14,7 @@ class FilmsRepository(
         if (cachedFilms.isNotEmpty() && !cacheIsDirty) {
             callback.onFilmsLoaded(ArrayList(cachedFilms.values))
             return
-        }
-
-        if (cacheIsDirty) {
+        } else {
             getFilmsFromRemoteDataSource(callback)
         }
     }
