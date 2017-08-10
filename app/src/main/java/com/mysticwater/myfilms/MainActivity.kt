@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.mysticwater.myfilms.data.source.FilmsRepository
+import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
 import com.mysticwater.myfilms.nowshowing.NowShowingFragment
 import com.mysticwater.myfilms.nowshowing.NowShowingPresenter
 import com.mysticwater.myfilms.util.ActivityUtils
@@ -40,7 +42,10 @@ class MainActivity : AppCompatActivity() {
         var nowShowingFragment = NowShowingFragment.newInstance()
         ActivityUtils.addFragmentToActivity(supportFragmentManager, nowShowingFragment, R.id.layout_content)
 
-        var nowShowingPresenter: NowShowingPresenter = NowShowingPresenter(nowShowingFragment)
+        val filmsRemoteDataSource = FilmsRemoteDataSource.getInstance()
+        val filmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource)
+
+        var nowShowingPresenter: NowShowingPresenter = NowShowingPresenter(filmsRepository, nowShowingFragment)
     }
 
 }

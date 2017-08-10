@@ -1,8 +1,11 @@
 package com.mysticwater.myfilms.nowshowing
 
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.FilmsDataSource
+import com.mysticwater.myfilms.data.source.FilmsRepository
 
-class NowShowingPresenter(val view: NowShowingContract.View) : NowShowingContract.Presenter {
+class NowShowingPresenter(val filmsRepository: FilmsRepository, val view: NowShowingContract.View)
+    : NowShowingContract.Presenter {
 
     init {
         view.presenter = this
@@ -13,11 +16,26 @@ class NowShowingPresenter(val view: NowShowingContract.View) : NowShowingContrac
     }
 
     override fun loadFilms(forceUpdate: Boolean) {
-        val filmsToShow = ArrayList<Film>()
+        filmsRepository.getFilms(object : FilmsDataSource.LoadFilmsCallback {
+            override fun onFilmsLoaded(films: List<Film>) {
+                val filmsToShow = ArrayList<Film>()
 
-        val film: Film = Film(0, "My film!")
-        filmsToShow.add(film)
+                for (film in films) {
+                    filmsToShow.add(film)
+                }
 
-        view.showFilms(filmsToShow)
+                if (!view.isActive) {
+                    return
+                }
+
+                view.showFilms(filmsToShow)
+            }
+
+            override fun onDataNotAvailable() {
+                // TODO - Show error
+            }
+
+        })
+
     }
 }
