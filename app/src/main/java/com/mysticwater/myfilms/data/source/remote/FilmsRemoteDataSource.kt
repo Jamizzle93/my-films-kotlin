@@ -1,8 +1,10 @@
 package com.mysticwater.myfilms.data.source.remote
 
-import com.google.common.collect.Lists
 import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.source.FilmsDataSource
+import com.mysticwater.myfilms.network.TheMovieDbService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class FilmsRemoteDataSource : FilmsDataSource {
 
@@ -16,8 +18,16 @@ class FilmsRemoteDataSource : FilmsDataSource {
     }
 
     override fun getFilms(callback: FilmsDataSource.LoadFilmsCallback) {
-        val films = Lists.newArrayList(FAKE_FILMS_DATA.values)
-        callback.onFilmsLoaded(films)
+        val tmdbService = TheMovieDbService.getTmdbService()
+        tmdbService.getUpcomingReleases("gb", "2017-08-22", "2017-09-24")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    callback.onFilmsLoaded(result.results)
+                }, { error ->
+                    // TODO - Handle error
+                    error.printStackTrace()
+                })
     }
 
     companion object {
@@ -26,7 +36,8 @@ class FilmsRemoteDataSource : FilmsDataSource {
 
         private var needNewInstance = true
 
-        @JvmStatic fun getInstance(): FilmsRemoteDataSource {
+        @JvmStatic
+        fun getInstance(): FilmsRemoteDataSource {
             if (needNewInstance) {
                 INSTANCE = FilmsRemoteDataSource()
                 needNewInstance = false
