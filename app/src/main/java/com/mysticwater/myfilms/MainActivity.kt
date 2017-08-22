@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navbar = findViewById<BottomNavigationView>(R.id.nav_bottom)
+        navbar.selectedItemId = R.id.menu_upcoming
+        showNowShowingFragment()
         navbar.setOnNavigationItemReselectedListener({ item -> selectFragment(item) })
+
     }
 
     fun selectFragment(item: MenuItem) {
