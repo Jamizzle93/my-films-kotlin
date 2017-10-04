@@ -11,8 +11,8 @@ class FilmsRemoteDataSource : FilmsDataSource {
     private val FAKE_FILMS_DATA = LinkedHashMap<Int, Film>(2)
 
     init {
-        val film1 = Film(1, "Film one")
-        val film2 = Film(2, "Film two")
+        val film1 = Film(1, "Film one", "abc")
+        val film2 = Film(2, "Film two", "abc")
         FAKE_FILMS_DATA.put(film1.id, film1)
         FAKE_FILMS_DATA.put(film2.id, film2)
     }
