@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.util.loadUrl
 import kotlinx.android.synthetic.main.view_film_row.view.*
 
 class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
@@ -21,6 +22,9 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
         val film = mFilms[position]
         
         holder.title.text = film.title
+
+        val posterUrl = "https://image.tmdb.org/t/p/w500/" + film.poster_path
+        holder.poster.loadUrl(posterUrl)
     }
 
     override fun getItemCount(): Int {
@@ -34,6 +38,7 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val title = view.text_title
+        val poster = view.image_poster
     }
 
 }
