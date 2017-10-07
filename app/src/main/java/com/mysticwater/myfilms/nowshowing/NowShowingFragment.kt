@@ -32,7 +32,7 @@ class NowShowingFragment : Fragment(), NowShowingContract.View {
         with(root) {
             val filmsList = (findViewById<RecyclerView>(R.id.recycler_view_films)).apply {
                 adapter = filmsAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+                layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
             }
         }
 
