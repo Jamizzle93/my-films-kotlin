@@ -36,7 +36,8 @@ class FilmsRepository(
 
     private fun refreshCache(films: List<Film>) {
         cachedFilms.clear()
-        for (film in films) {
+        val sortedFilms = films.sortedWith(compareBy({it.title}))
+        for (film in sortedFilms) {
             cacheAndPerform(film, {})
         }
         cacheIsDirty = false
@@ -46,6 +47,7 @@ class FilmsRepository(
         val cachedFilm = Film(film.id, film.title, film.poster_path)
         cachedFilms.put(cachedFilm.id, cachedFilm)
         perform(cachedFilm)
+
     }
 
     companion object {
@@ -61,7 +63,8 @@ class FilmsRepository(
          * *
          * @return the [TasksRepository] instance
          */
-        @JvmStatic fun getInstance(filmsRemoteDataSource: FilmsDataSource): FilmsRepository {
+        @JvmStatic
+        fun getInstance(filmsRemoteDataSource: FilmsDataSource): FilmsRepository {
             if (needNewInstance) {
                 INSTANCE = FilmsRepository(filmsRemoteDataSource)
                 needNewInstance = false
@@ -73,7 +76,8 @@ class FilmsRepository(
          * Used to force [getInstance] to create a new instance
          * next time it's called.
          */
-        @JvmStatic fun destroyInstance() {
+        @JvmStatic
+        fun destroyInstance() {
             needNewInstance = true
         }
     }

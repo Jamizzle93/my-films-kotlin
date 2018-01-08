@@ -23,7 +23,7 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
         
         holder.title.text = film.title
 
-        val posterUrl = "https://image.tmdb.org/t/p/w500/" + film.poster_path
+        val posterUrl = "https://image.tmdb.org/t/p/w500" + film.poster_path
         holder.poster.loadUrl(posterUrl)
     }
 
