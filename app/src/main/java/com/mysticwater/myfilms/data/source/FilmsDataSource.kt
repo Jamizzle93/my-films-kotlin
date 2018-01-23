@@ -12,5 +12,5 @@ interface FilmsDataSource {
 
     }
 
-    fun getFilms(callback: LoadFilmsCallback)
+    fun getNowShowingFilms(callback: LoadFilmsCallback)
 }

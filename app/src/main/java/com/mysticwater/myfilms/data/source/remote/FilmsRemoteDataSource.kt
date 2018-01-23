@@ -5,6 +5,8 @@ import com.mysticwater.myfilms.data.source.FilmsDataSource
 import com.mysticwater.myfilms.network.TheMovieDbService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FilmsRemoteDataSource : FilmsDataSource {
 
@@ -17,9 +19,17 @@ class FilmsRemoteDataSource : FilmsDataSource {
         FAKE_FILMS_DATA.put(film2.id, film2)
     }
 
-    override fun getFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+    override fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+
+        val now: Calendar = Calendar.getInstance()
+        val nowStr = dateFormat.format(now.time)
+        now.add(Calendar.DATE, -14)
+        val twoWeeksAgoStr = dateFormat.format(now.time)
+
         val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getUpcomingReleases("gb", "2017-08-22", "2017-09-24")
+        tmdbService.getUpcomingReleases("gb", twoWeeksAgoStr, nowStr)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->

@@ -10,7 +10,7 @@ class FilmsRepository(
 
     var cacheIsDirty = false
 
-    override fun getFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+    override fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
         if (cachedFilms.isNotEmpty() && !cacheIsDirty) {
             callback.onFilmsLoaded(ArrayList(cachedFilms.values))
             return
@@ -20,7 +20,7 @@ class FilmsRepository(
     }
 
     private fun getFilmsFromRemoteDataSource(callback: FilmsDataSource.LoadFilmsCallback) {
-        filmsRemoteDataSource.getFilms(object : FilmsDataSource.LoadFilmsCallback {
+        filmsRemoteDataSource.getNowShowingFilms(object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 refreshCache(films)
                 // TODO

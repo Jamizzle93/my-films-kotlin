@@ -16,7 +16,7 @@ class NowShowingPresenter(val filmsRepository: FilmsRepository, val view: NowSho
     }
 
     override fun loadFilms(forceUpdate: Boolean) {
-        filmsRepository.getFilms(object : FilmsDataSource.LoadFilmsCallback {
+        filmsRepository.getNowShowingFilms(object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 val filmsToShow = ArrayList<Film>()
 
