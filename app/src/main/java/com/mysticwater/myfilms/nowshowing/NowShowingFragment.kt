@@ -2,6 +2,7 @@ package com.mysticwater.myfilms.nowshowing
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -32,8 +33,9 @@ class NowShowingFragment : Fragment(), NowShowingContract.View {
         with(root) {
             val filmsList = (findViewById<RecyclerView>(R.id.recycler_view_films)).apply {
                 adapter = filmsAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+                layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             }
+            filmsList.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         }
 
         return root

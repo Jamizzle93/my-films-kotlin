@@ -6,4 +6,6 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="title_favourites">Favourites</string>
 
+    <string name="content_desc_poster">Poster</string>
+
 </resources>
