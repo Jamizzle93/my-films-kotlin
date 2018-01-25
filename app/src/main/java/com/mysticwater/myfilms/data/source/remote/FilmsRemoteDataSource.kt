@@ -29,7 +29,7 @@ class FilmsRemoteDataSource : FilmsDataSource {
         val twoWeeksAgoStr = dateFormat.format(now.time)
 
         val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getUpcomingReleases("gb", twoWeeksAgoStr, nowStr)
+        tmdbService.getUpcomingReleases("GB", twoWeeksAgoStr, nowStr, 3)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->

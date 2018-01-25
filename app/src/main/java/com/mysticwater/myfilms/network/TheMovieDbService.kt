@@ -13,8 +13,9 @@ interface TheMovieDbService {
 
     @GET("discover/movie?api_key=" + BuildConfig.API_KEY)
     fun getUpcomingReleases(@Query("region") region: String,
-                            @Query("primary_release_date.gte") startDate: String,
-                            @Query("primary_release_date.lte") endDate: String): Observable<FilmResults>
+                            @Query("release_date.gte") startDate: String,
+                            @Query("release_date.lte") endDate: String,
+                            @Query("with_release_type") releaseType: Int): Observable<FilmResults>
 
     companion object {
         val BASE_URL = "https://api.themoviedb.org/3/"

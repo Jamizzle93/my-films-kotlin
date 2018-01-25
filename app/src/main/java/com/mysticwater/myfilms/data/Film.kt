@@ -12,8 +12,8 @@ data class Film constructor(
 
 
     override fun compareTo(other: Film) = when {
-        title < other.title -> -1
-        title > other.title -> 1
+        release_date < other.release_date -> -1
+        release_date > other.release_date -> 1
         else -> 0
     }
 }

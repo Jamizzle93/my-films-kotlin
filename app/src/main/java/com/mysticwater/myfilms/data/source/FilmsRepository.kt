@@ -36,7 +36,7 @@ class FilmsRepository(
 
     private fun refreshCache(films: List<Film>) {
         cachedFilms.clear()
-        val sortedFilms = films.sortedWith(compareBy({it.title}))
+        val sortedFilms = films.sortedWith(compareBy({ it.release_date }))
         for (film in sortedFilms) {
             cacheAndPerform(film, {})
         }
@@ -44,7 +44,7 @@ class FilmsRepository(
     }
 
     private inline fun cacheAndPerform(film: Film, perform: (Film) -> Unit) {
-        val cachedFilm = Film(film.id, film.title, film.poster_path)
+        val cachedFilm = Film(film.id, film.title, film.poster_path, film.release_date)
         cachedFilms.put(cachedFilm.id, cachedFilm)
         perform(cachedFilm)
 

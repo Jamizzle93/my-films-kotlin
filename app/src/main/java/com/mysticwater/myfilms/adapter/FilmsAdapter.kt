@@ -20,11 +20,13 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val film = mFilms[position]
-        
-        holder.title.text = film.title
 
         val posterUrl = "https://image.tmdb.org/t/p/w500" + film.poster_path
         holder.poster.loadUrl(posterUrl)
+
+        holder.title.text = film.title
+
+        holder.releaseDate.text = film.release_date
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +39,9 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val title = view.text_title
         val poster = view.image_poster
+        val title = view.text_title
+        val releaseDate = view.text_release_date
     }
 
 }
