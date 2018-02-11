@@ -6,9 +6,11 @@ import com.mysticwater.myfilms.data.Film
 
 interface NowShowingContract {
 
-    interface View: BaseView<Presenter> {
+    interface View : BaseView<Presenter> {
 
         fun showFilms(films: List<Film>)
+
+        fun showFilmDetailUi(filmId: Int)
 
         var isActive: Boolean
 
@@ -17,6 +19,8 @@ interface NowShowingContract {
     interface Presenter : BasePresenter {
 
         fun loadFilms(forceUpdate: Boolean)
+
+        fun openFilmDetail(film: Film)
 
     }
 }

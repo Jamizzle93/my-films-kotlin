@@ -38,4 +38,8 @@ class NowShowingPresenter(val filmsRepository: FilmsRepository, val view: NowSho
         })
 
     }
+
+    override fun openFilmDetail(film: Film) {
+        view.showFilmDetailUi(film.id)
+    }
 }

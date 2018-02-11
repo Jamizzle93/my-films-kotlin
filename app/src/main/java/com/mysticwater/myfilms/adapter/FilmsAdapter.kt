@@ -9,7 +9,7 @@ import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.util.loadUrl
 import kotlinx.android.synthetic.main.view_film_row.view.*
 
-class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
+class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemListener) : RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
 
     private var mFilms: List<Film> = films
 
@@ -27,21 +27,28 @@ class FilmsAdapter(val films: List<Film>) : RecyclerView.Adapter<FilmsAdapter.Vi
         holder.title.text = film.title
 
         holder.releaseDate.text = film.release_date
+
+        holder.itemView.setOnClickListener { itemListener.onFilmClick(film) }
     }
 
     override fun getItemCount(): Int {
         return mFilms.size
     }
-    
+
     fun add(films: List<Film>) {
         mFilms = films
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val poster = view.image_poster
         val title = view.text_title
         val releaseDate = view.text_release_date
     }
 
+    interface FilmItemListener {
+
+        fun onFilmClick(clickedFilm: Film)
+
+    }
 }
