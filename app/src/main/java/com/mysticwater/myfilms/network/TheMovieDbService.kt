@@ -1,12 +1,14 @@
 package com.mysticwater.myfilms.network
 
 import com.mysticwater.myfilms.BuildConfig
+import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.FilmResults
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TheMovieDbService {
@@ -16,6 +18,9 @@ interface TheMovieDbService {
                             @Query("release_date.gte") startDate: String,
                             @Query("release_date.lte") endDate: String,
                             @Query("with_release_type") releaseType: Int): Observable<FilmResults>
+
+    @GET("movie/{id}")
+    fun getFilm(@Path("id") id: Int): Observable<Film>
 
     companion object {
         val BASE_URL = "https://api.themoviedb.org/3/"

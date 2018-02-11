@@ -12,5 +12,15 @@ interface FilmsDataSource {
 
     }
 
+    interface GetFilmCallback {
+
+        fun onFilmLoaded(film: Film)
+
+        fun onDataNotAvailable()
+
+    }
+
     fun getNowShowingFilms(callback: LoadFilmsCallback)
+
+    fun getFilm(filmId: Int, callback: GetFilmCallback)
 }

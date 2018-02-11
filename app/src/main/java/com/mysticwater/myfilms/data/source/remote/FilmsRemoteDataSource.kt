@@ -40,6 +40,19 @@ class FilmsRemoteDataSource : FilmsDataSource {
                 })
     }
 
+    override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
+        val tmdbService = TheMovieDbService.getTmdbService()
+        tmdbService.getFilm(filmId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    callback.onFilmLoaded(result)
+                }, {
+                    error ->
+                    error.printStackTrace()
+                })
+    }
+
     companion object {
 
         private lateinit var INSTANCE: FilmsRemoteDataSource
