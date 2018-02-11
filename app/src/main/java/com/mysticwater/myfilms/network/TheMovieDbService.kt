@@ -19,7 +19,7 @@ interface TheMovieDbService {
                             @Query("release_date.lte") endDate: String,
                             @Query("with_release_type") releaseType: Int): Observable<FilmResults>
 
-    @GET("movie/{id}")
+    @GET("movie/{id}?api_key=" + BuildConfig.API_KEY)
     fun getFilm(@Path("id") id: Int): Observable<Film>
 
     companion object {
