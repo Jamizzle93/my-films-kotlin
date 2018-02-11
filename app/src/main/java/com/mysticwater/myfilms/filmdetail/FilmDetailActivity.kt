@@ -15,10 +15,10 @@ class FilmDetailActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_film_detail)
 
-        setupActionBar(R.id.toolbar) {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
+//        setupActionBar(R.id.toolbar) {
+//            setDisplayHomeAsUpEnabled(true)
+//            setDisplayShowHomeEnabled(true)
+//        }
 
         // Get the film ID
         val filmId = intent.getIntExtra(EXTRA_FILM_ID, 0)
