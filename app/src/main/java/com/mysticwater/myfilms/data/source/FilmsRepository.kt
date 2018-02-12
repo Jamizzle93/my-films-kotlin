@@ -58,7 +58,17 @@ class FilmsRepository(
     }
 
     private inline fun cacheAndPerform(film: Film, perform: (Film) -> Unit) {
-        val cachedFilm = Film(film.id, film.title, film.poster_path, film.release_date, film.runtime, film.overview)
+        val cachedFilm = Film(
+                film.id,
+                film.title,
+                film.poster_path,
+                film.release_date,
+                film.runtime,
+                film.overview,
+                film.backdrop_path,
+                film.imdb_id,
+                film.tagline
+        )
         cachedFilms.put(cachedFilm.id, cachedFilm)
         perform(cachedFilm)
     }
