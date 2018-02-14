@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsRepository
 import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
-import com.mysticwater.myfilms.nowshowing.NowShowingFragment
-import com.mysticwater.myfilms.nowshowing.NowShowingPresenter
+import com.mysticwater.myfilms.films.FilmsFragment
+import com.mysticwater.myfilms.films.FilmsPresenter
 import com.mysticwater.myfilms.util.ActivityUtils
 
 class MainActivity : AppCompatActivity() {
@@ -18,9 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         val navbar = findViewById<BottomNavigationView>(R.id.nav_bottom)
         navbar.selectedItemId = R.id.menu_now_showing
-        showNowShowingFragment()
         navbar.setOnNavigationItemReselectedListener({ item -> selectFragment(item) })
 
+        val args = Bundle()
+        args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.NOW_SHOWING.name)
+        showFragment(args)
     }
 
     fun selectFragment(item: MenuItem) {
@@ -29,11 +32,16 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.menu_now_showing -> {
-                // TODO - Show fragment
-                showNowShowingFragment()
+                val args = Bundle()
+                args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.NOW_SHOWING.name)
+
+                showFragment(args)
             }
             R.id.menu_upcoming -> {
-                // TODO - Show fragment
+                val args = Bundle()
+                args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.UPCOMING.name)
+
+                showFragment(args)
             }
             R.id.menu_favourite -> {
                 // TODO - Show fragment
@@ -41,14 +49,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showNowShowingFragment() {
-        var nowShowingFragment = NowShowingFragment.newInstance()
-        ActivityUtils.addFragmentToActivity(supportFragmentManager, nowShowingFragment, R.id.layout_content)
+    fun showFragment(bundle: Bundle) {
+        var filmsFragment = FilmsFragment.newInstance()
+
+        filmsFragment.arguments = bundle
+
+        ActivityUtils.replaceFragmentInActivity(supportFragmentManager, filmsFragment, R.id.layout_content)
 
         val filmsRemoteDataSource = FilmsRemoteDataSource.getInstance()
         val filmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource)
-
-        var nowShowingPresenter: NowShowingPresenter = NowShowingPresenter(filmsRepository, nowShowingFragment)
+        val filmsPresenter: FilmsPresenter = FilmsPresenter(filmsRepository, filmsFragment)
     }
 
 }

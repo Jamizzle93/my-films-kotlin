@@ -1,22 +1,22 @@
-package com.mysticwater.myfilms.nowshowing
+package com.mysticwater.myfilms.films
 
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsDataSource
 import com.mysticwater.myfilms.data.source.FilmsRepository
 
-class NowShowingPresenter(val filmsRepository: FilmsRepository, val view: NowShowingContract.View)
-    : NowShowingContract.Presenter {
+class FilmsPresenter(val filmsRepository: FilmsRepository, val view: FilmsContract.View)
+    : FilmsContract.Presenter {
 
     init {
         view.presenter = this
     }
 
     override fun start() {
-        loadFilms(false)
     }
 
-    override fun loadFilms(forceUpdate: Boolean) {
-        filmsRepository.getNowShowingFilms(object : FilmsDataSource.LoadFilmsCallback {
+    override fun loadFilms(filmType: FilmType, forceUpdate: Boolean) {
+        filmsRepository.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 val filmsToShow = ArrayList<Film>()
 

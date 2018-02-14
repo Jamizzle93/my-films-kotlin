@@ -1,4 +1,4 @@
-package com.mysticwater.myfilms.nowshowing
+package com.mysticwater.myfilms.films
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +13,12 @@ import android.widget.LinearLayout
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.adapter.FilmsAdapter
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.filmdetail.FilmDetailActivity
 
-class NowShowingFragment : Fragment(), NowShowingContract.View {
+class FilmsFragment : Fragment(), FilmsContract.View {
 
-    override var presenter: NowShowingContract.Presenter? = null
+    override var presenter: FilmsContract.Presenter? = null
 
     override var isActive: Boolean = false
         get() = isAdded
@@ -26,6 +27,11 @@ class NowShowingFragment : Fragment(), NowShowingContract.View {
     override fun onResume() {
         super.onResume()
         presenter?.start()
+
+        if (arguments.containsKey(KEY_FILM_TYPE)) {
+            val filmType = FilmType.valueOf(arguments.getString(KEY_FILM_TYPE))
+            presenter?.loadFilms(filmType, true)
+        }
     }
 
     internal var filmListener: FilmsAdapter.FilmItemListener = object : FilmsAdapter.FilmItemListener {
@@ -63,8 +69,10 @@ class NowShowingFragment : Fragment(), NowShowingContract.View {
 
     companion object {
 
-        fun newInstance(): NowShowingFragment {
-            return NowShowingFragment()
+        const val KEY_FILM_TYPE = "filmType"
+
+        fun newInstance(): FilmsFragment {
+            return FilmsFragment()
         }
     }
 }

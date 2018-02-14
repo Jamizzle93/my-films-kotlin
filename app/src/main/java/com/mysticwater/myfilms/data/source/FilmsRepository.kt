@@ -1,30 +1,41 @@
 package com.mysticwater.myfilms.data.source
 
 import com.mysticwater.myfilms.data.Film
+import java.util.*
 
 class FilmsRepository(
         val filmsRemoteDataSource: FilmsDataSource
 ) : FilmsDataSource {
 
-    var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+    var cachedNowShowingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+    var cachedUpcomingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
 
     var cacheIsDirty = false
 
-    override fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+    override fun getFilms(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
+
+        var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+        if (filmType == FilmType.NOW_SHOWING) {
+            cachedFilms = cachedNowShowingFilms
+        } else if (filmType == FilmType.UPCOMING) {
+            cachedFilms = cachedUpcomingFilms
+        }
+
         if (cachedFilms.isNotEmpty() && !cacheIsDirty) {
             callback.onFilmsLoaded(ArrayList(cachedFilms.values))
             return
         } else {
-            getFilmsFromRemoteDataSource(callback)
+            getFilmsFromRemoteDataSource(filmType, callback)
         }
     }
 
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
         filmsRemoteDataSource.getFilm(filmId, object : FilmsDataSource.GetFilmCallback {
             override fun onFilmLoaded(film: Film) {
-                cacheAndPerform(film) {
-                    callback.onFilmLoaded(it)
-                }
+                callback.onFilmLoaded(film)
+//                cacheAndPerform(film) {
+//                    callback.onFilmLoaded(it)
+//                }
             }
 
             override fun onDataNotAvailable() {
@@ -33,12 +44,20 @@ class FilmsRepository(
         })
     }
 
-    private fun getFilmsFromRemoteDataSource(callback: FilmsDataSource.LoadFilmsCallback) {
-        filmsRemoteDataSource.getNowShowingFilms(object : FilmsDataSource.LoadFilmsCallback {
+    private fun getFilmsFromRemoteDataSource(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
+        filmsRemoteDataSource.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
-                refreshCache(films)
+                refreshCache(filmType, films)
                 // TODO
                 //refreshLocalDataSource(tasks)
+
+                var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+                if (filmType == FilmType.NOW_SHOWING) {
+                    cachedFilms = cachedNowShowingFilms
+                } else if (filmType == FilmType.UPCOMING) {
+                    cachedFilms = cachedUpcomingFilms
+                }
+
                 callback.onFilmsLoaded(java.util.ArrayList(cachedFilms.values))
             }
 
@@ -48,16 +67,21 @@ class FilmsRepository(
         })
     }
 
-    private fun refreshCache(films: List<Film>) {
-        cachedFilms.clear()
+    private fun refreshCache(filmType: FilmType, films: List<Film>) {
+        if (filmType == FilmType.UPCOMING) {
+            cachedUpcomingFilms.clear()
+        } else if (filmType == FilmType.NOW_SHOWING) {
+            cachedNowShowingFilms.clear()
+        }
+
         val sortedFilms = films.sortedWith(compareBy({ it.release_date }))
         for (film in sortedFilms) {
-            cacheAndPerform(film, {})
+            cacheAndPerform(filmType, film, {})
         }
         cacheIsDirty = false
     }
 
-    private inline fun cacheAndPerform(film: Film, perform: (Film) -> Unit) {
+    private inline fun cacheAndPerform(filmType: FilmType, film: Film, perform: (Film) -> Unit) {
         val cachedFilm = Film(
                 film.id,
                 film.title,
@@ -69,7 +93,11 @@ class FilmsRepository(
                 film.imdb_id,
                 film.tagline
         )
-        cachedFilms.put(cachedFilm.id, cachedFilm)
+        if (filmType == FilmType.UPCOMING) {
+            cachedUpcomingFilms.put(cachedFilm.id, cachedFilm)
+        } else if (filmType == FilmType.NOW_SHOWING) {
+            cachedNowShowingFilms.put(cachedFilm.id, cachedFilm)
+        }
         perform(cachedFilm)
     }
 

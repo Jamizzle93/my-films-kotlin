@@ -1,6 +1,7 @@
 package com.mysticwater.myfilms.data.source.remote
 
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsDataSource
 import com.mysticwater.myfilms.network.TheMovieDbService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,8 +20,68 @@ class FilmsRemoteDataSource : FilmsDataSource {
         FAKE_FILMS_DATA.put(film2.id, film2)
     }
 
-    override fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+    override fun getFilms(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
+        when (filmType) {
+            FilmType.NOW_SHOWING -> getNowShowingFilms(callback)
+            FilmType.UPCOMING -> getUpcomingFilms(callback)
+            FilmType.FAVOURITES -> getFavouriteFilms(callback)
+        }
 
+    }
+
+    override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
+        val tmdbService = TheMovieDbService.getTmdbService()
+        tmdbService.getFilm(filmId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    callback.onFilmLoaded(result)
+                }, { error ->
+                    error.printStackTrace()
+                })
+    }
+
+    fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+
+        val toDate: Calendar = Calendar.getInstance()
+        val toDateStr = dateFormat.format(toDate.time)
+        toDate.add(Calendar.DATE, -14)
+        val fromDateStr = dateFormat.format(toDate.time)
+
+        val tmdbService = TheMovieDbService.getTmdbService()
+        tmdbService.getUpcomingReleases("GB", fromDateStr, toDateStr, 3)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    callback.onFilmsLoaded(result.results)
+                }, { error ->
+                    // TODO - Handle error
+                    error.printStackTrace()
+                })
+    }
+
+    fun getUpcomingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+
+        val fromDate: Calendar = Calendar.getInstance()
+        val fromDateStr = dateFormat.format(fromDate.time)
+        fromDate.add(Calendar.DATE, 14)
+        val toDateStr = dateFormat.format(fromDate.time)
+
+        val tmdbService = TheMovieDbService.getTmdbService()
+        tmdbService.getUpcomingReleases("GB", fromDateStr, toDateStr, 3)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    callback.onFilmsLoaded(result.results)
+                }, { error ->
+                    // TODO - Handle error
+                    error.printStackTrace()
+                })
+    }
+
+    fun getFavouriteFilms(callback: FilmsDataSource.LoadFilmsCallback) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd");
 
         val now: Calendar = Calendar.getInstance()
@@ -36,19 +97,6 @@ class FilmsRemoteDataSource : FilmsDataSource {
                     callback.onFilmsLoaded(result.results)
                 }, { error ->
                     // TODO - Handle error
-                    error.printStackTrace()
-                })
-    }
-
-    override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
-        val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getFilm(filmId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ result ->
-                    callback.onFilmLoaded(result)
-                }, {
-                    error ->
                     error.printStackTrace()
                 })
     }

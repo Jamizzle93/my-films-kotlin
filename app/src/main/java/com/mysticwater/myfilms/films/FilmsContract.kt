@@ -1,10 +1,11 @@
-package com.mysticwater.myfilms.nowshowing
+package com.mysticwater.myfilms.films
 
 import com.mysticwater.myfilms.BasePresenter
 import com.mysticwater.myfilms.BaseView
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.FilmType
 
-interface NowShowingContract {
+interface FilmsContract {
 
     interface View : BaseView<Presenter> {
 
@@ -18,7 +19,7 @@ interface NowShowingContract {
 
     interface Presenter : BasePresenter {
 
-        fun loadFilms(forceUpdate: Boolean)
+        fun loadFilms(filmType: FilmType, forceUpdate: Boolean)
 
         fun openFilmDetail(film: Film)
 
