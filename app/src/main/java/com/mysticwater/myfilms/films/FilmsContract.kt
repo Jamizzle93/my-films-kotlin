@@ -13,6 +13,8 @@ interface FilmsContract {
 
         fun showFilmDetailUi(filmId: Int)
 
+        fun showLoadingUi(active: Boolean)
+
         var isActive: Boolean
 
     }

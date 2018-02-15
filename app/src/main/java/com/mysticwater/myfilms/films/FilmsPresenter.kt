@@ -16,6 +16,8 @@ class FilmsPresenter(val filmsRepository: FilmsRepository, val view: FilmsContra
     }
 
     override fun loadFilms(filmType: FilmType, forceUpdate: Boolean) {
+        view.showLoadingUi(true)
+
         filmsRepository.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 val filmsToShow = ArrayList<Film>()
@@ -28,10 +30,12 @@ class FilmsPresenter(val filmsRepository: FilmsRepository, val view: FilmsContra
                     return
                 }
 
+                view.showLoadingUi(false)
                 view.showFilms(filmsToShow)
             }
 
             override fun onDataNotAvailable() {
+                view.showLoadingUi(false)
                 // TODO - Show error
             }
 

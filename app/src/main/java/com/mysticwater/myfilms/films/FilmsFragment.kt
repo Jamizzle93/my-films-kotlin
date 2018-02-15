@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.adapter.FilmsAdapter
 import com.mysticwater.myfilms.data.Film
@@ -17,12 +18,14 @@ import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.filmdetail.FilmDetailActivity
 
 class FilmsFragment : Fragment(), FilmsContract.View {
-
+    
     override var presenter: FilmsContract.Presenter? = null
 
     override var isActive: Boolean = false
         get() = isAdded
 
+    private lateinit var loadingProgressView: ProgressBar
+    private lateinit var filmsList: RecyclerView
 
     override fun onResume() {
         super.onResume()
@@ -46,7 +49,8 @@ class FilmsFragment : Fragment(), FilmsContract.View {
         val root = inflater.inflate(R.layout.fragment_films, container, false)
 
         with(root) {
-            val filmsList = (findViewById<RecyclerView>(R.id.recycler_view_films)).apply {
+            loadingProgressView = findViewById(R.id.progress_loading)
+            filmsList = (findViewById<RecyclerView>(R.id.recycler_view_films)).apply {
                 adapter = filmsAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             }
@@ -65,6 +69,17 @@ class FilmsFragment : Fragment(), FilmsContract.View {
             putExtra(FilmDetailActivity.EXTRA_FILM_ID, filmId)
         }
         startActivity(intent)
+    }
+
+    override fun showLoadingUi(active: Boolean) {
+        if (active) {
+            loadingProgressView.visibility = View.VISIBLE
+            filmsList.visibility = View.INVISIBLE
+        } else {
+            loadingProgressView.visibility = View.INVISIBLE
+            filmsList.visibility = View.VISIBLE
+        }
+
     }
 
     companion object {
