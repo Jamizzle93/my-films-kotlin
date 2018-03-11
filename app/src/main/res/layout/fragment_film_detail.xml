@@ -31,6 +31,14 @@
             app:layout_constraintTop_toTopOf="@+id/layout_film_detail"
             tools:text="Star Wars: The Force Awakens" />
 
+        <RatingBar
+            android:id="@+id/rating_bar_rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
         <TextView
             android:id="@+id/text_overview"
             android:layout_width="wrap_content"
@@ -38,6 +46,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="4"
+            android:visibility="invisible"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/layout_film_detail"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
@@ -48,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
+            android:visibility="invisible"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/layout_film_detail"
             app:layout_constraintTop_toBottomOf="@+id/text_overview"
@@ -58,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="invisible"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/layout_film_detail"
             app:layout_constraintTop_toBottomOf="@+id/text_release_date"
