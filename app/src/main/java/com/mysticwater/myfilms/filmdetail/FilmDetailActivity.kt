@@ -2,11 +2,13 @@ package com.mysticwater.myfilms.filmdetail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.ImageView
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.source.FilmsRepository
 import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
 import com.mysticwater.myfilms.util.replaceFragmentInActivity
 import com.mysticwater.myfilms.util.setupActionBar
+import com.squareup.picasso.Picasso
 
 class FilmDetailActivity : AppCompatActivity() {
 
@@ -37,6 +39,17 @@ class FilmDetailActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    public fun setToolbarImage(backdropPath: String) {
+        val toolbarImage = findViewById<ImageView>(R.id.film_backdrop)
+
+        val imageUri = getString(R.string.tmdb_backdrop_w1280_url, backdropPath)
+        val picassoBuilder = Picasso.Builder(this)
+        picassoBuilder.build()
+                .load(imageUri)
+                .tag(this)
+                .into(toolbarImage)
     }
 
     companion object {

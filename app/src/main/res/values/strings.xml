@@ -10,6 +10,10 @@
 
     <string name="content_desc_poster">Poster</string>
 
+    <!-- API Strings -->
+    <string name="moviedb_image_w500_url">https://image.tmdb.org/t/p/w500%1$s</string>
+    <string name="tmdb_backdrop_w1280_url">https://image.tmdb.org/t/p/w1280%1$s</string>
+
     <plurals name="hours">
         <item quantity="one">%d hr</item>
         <item quantity="other">%d hrs</item>

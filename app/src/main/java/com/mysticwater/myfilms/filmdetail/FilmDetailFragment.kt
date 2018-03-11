@@ -61,6 +61,15 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
         with(runtime) {
             text = runtimeToHoursMinutes(film.runtime)
         }
+
+        if (activity is FilmDetailActivity) {
+            val parentActivity: FilmDetailActivity = activity as FilmDetailActivity
+
+            val backdropPath: String? = film.backdrop_path
+            if (backdropPath != null) {
+                parentActivity.setToolbarImage(backdropPath)
+            }
+        }
     }
 
     private fun runtimeToHoursMinutes(runtime: Int): String {
