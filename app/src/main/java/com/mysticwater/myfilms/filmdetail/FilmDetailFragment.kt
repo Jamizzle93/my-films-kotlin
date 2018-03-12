@@ -1,10 +1,12 @@
 package com.mysticwater.myfilms.filmdetail
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
@@ -12,6 +14,10 @@ import com.mysticwater.myfilms.data.Film
 class FilmDetailFragment : Fragment(), FilmDetailContract.View {
 
     private lateinit var title: TextView
+    private lateinit var voteAverage: TextView
+    private lateinit var voteAverageRatingBar: RatingBar
+    private lateinit var voteCount: TextView
+    private lateinit var overviewLayout: ConstraintLayout
     private lateinit var overview: TextView
     private lateinit var releaseDate: TextView
     private lateinit var runtime: TextView
@@ -34,6 +40,16 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
         setHasOptionsMenu(true)
         with(root) {
             title = findViewById(R.id.text_title)
+            voteAverage = findViewById(R.id.text_vote_average)
+            voteAverageRatingBar = findViewById(R.id.rating_bar_vote)
+            voteCount = findViewById(R.id.text_vote_count)
+            overviewLayout = findViewById(R.id.layout_overview)
+            overviewLayout.setOnClickListener {
+                if (overview.maxLines == 3)
+                    overview.maxLines = Integer.MAX_VALUE
+                else
+                    overview.maxLines = 3
+            }
             overview = findViewById(R.id.text_overview)
             releaseDate = findViewById(R.id.text_release_date)
             runtime = findViewById(R.id.text_runtime)
@@ -51,6 +67,18 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
     override fun showFilm(film: Film) {
         with(title) {
             text = film.title
+        }
+        with(voteAverage)
+        {
+            text = (film.vote_average / 2).toString()
+        }
+        with(voteAverageRatingBar)
+        {
+            rating = film.vote_average / 2
+        }
+        with(voteCount)
+        {
+            text = film.vote_count.toString()
         }
         with(overview) {
             text = film.overview
@@ -79,7 +107,7 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
         val hoursStr = resources.getQuantityString(R.plurals.hours, hours, hours)
         val minutesStr = resources.getQuantityString(R.plurals.minutes, minutes, minutes)
 
-        return hoursStr + " " + minutes
+        return hoursStr + " " + minutesStr
     }
 
     override fun showNoFilm() {

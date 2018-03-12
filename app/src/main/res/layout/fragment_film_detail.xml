@@ -32,33 +32,36 @@
             style="@style/style_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="@+id/view_content"
             app:layout_constraintTop_toTopOf="@+id/view_content"
             tools:text="Star Wars: The Force Awakens" />
 
         <TextView
             android:id="@+id/text_vote_average"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="@+id/view_content"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
             tools:text="4.3" />
 
-        <RatingBar
+        <android.support.v7.widget.AppCompatRatingBar
             android:id="@+id/rating_bar_vote"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:numStars="5"
+            android:stepSize="0.1"
             app:layout_constraintBottom_toBottomOf="@+id/text_vote_average"
             app:layout_constraintStart_toEndOf="@+id/text_vote_average"
             app:layout_constraintTop_toTopOf="@+id/text_vote_average" />
 
         <TextView
             android:id="@+id/text_vote_count"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -91,7 +94,7 @@
             android:id="@+id/image_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ic_calendar"
             app:layout_constraintStart_toStartOf="@+id/view_content"
             app:layout_constraintTop_toBottomOf="@+id/layout_overview" />

@@ -13,8 +13,10 @@ data class Film constructor(
         @ColumnInfo(name = "overview") var overview: String = "",
         @ColumnInfo(name = "backdrop_path") var backdrop_path: String? = "",
         @ColumnInfo(name = "imdb_id") var imdb_id: String = "",
-        @ColumnInfo(name = "tagline") var tagline: String = ""
-) : Comparable<Film> {
+        @ColumnInfo(name = "tagline") var tagline: String = "",
+        @ColumnInfo(name = "vote_average") var vote_average: Float = 0.0f,
+        @ColumnInfo(name = "vote_count") var vote_count: Int = 0
+        ) : Comparable<Film> {
 
     override fun compareTo(other: Film) = when {
         release_date < other.release_date -> -1
