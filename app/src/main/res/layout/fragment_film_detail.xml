@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="16dp">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progress_loading"
@@ -22,57 +21,111 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp" />
+
         <TextView
             android:id="@+id/text_title"
+            style="@style/style_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@+id/layout_film_detail"
-            app:layout_constraintTop_toTopOf="@+id/layout_film_detail"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toTopOf="@+id/view_content"
             tools:text="Star Wars: The Force Awakens" />
 
-        <RatingBar
-            android:id="@+id/rating_bar_rating"
+        <TextView
+            android:id="@+id/text_vote_average"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:text="4.3" />
+
+        <RatingBar
+            android:id="@+id/rating_bar_vote"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:numStars="5"
-            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+            app:layout_constraintBottom_toBottomOf="@+id/text_vote_average"
+            app:layout_constraintStart_toEndOf="@+id/text_vote_average"
+            app:layout_constraintTop_toTopOf="@+id/text_vote_average" />
 
         <TextView
-            android:id="@+id/text_overview"
+            android:id="@+id/text_vote_count"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_vote_average"
+            app:layout_constraintStart_toEndOf="@+id/rating_bar_vote"
+            app:layout_constraintTop_toTopOf="@+id/text_vote_average"
+            tools:text="10000 votes" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/darker_gray"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_vote_average">
+
+            <TextView
+                android:id="@+id/text_overview"
+                style="@style/style_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                app:layout_constraintStart_toStartOf="@+id/layout_overview"
+                tools:text="A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!A long time ago in a galaxy far far away!" />
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/image_calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="4"
-            android:visibility="invisible"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/layout_film_detail"
-            app:layout_constraintTop_toBottomOf="@+id/text_title"
-            tools:text="A long time ago in a galaxy far far away!" />
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toBottomOf="@+id/layout_overview" />
 
         <TextView
             android:id="@+id/text_release_date"
+            style="@style/style_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:visibility="invisible"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/layout_film_detail"
-            app:layout_constraintTop_toBottomOf="@+id/text_overview"
-            tools:text="Release date: 27/01/2018" />
+            android:layout_marginStart="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_calendar"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toTopOf="@+id/image_calendar"
+            tools:text="27th January 2018" />
 
-        <TextView
-            android:id="@+id/text_runtime"
+        <ImageView
+            android:id="@+id/image_runtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:visibility="invisible"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/layout_film_detail"
-            app:layout_constraintTop_toBottomOf="@+id/text_release_date"
-            tools:text="Runtime: 1 hour 45 minutes" />
+            android:src="@drawable/ic_runtime"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toBottomOf="@+id/image_calendar" />
+
+        <TextView
+            android:id="@+id/text_runtime"
+            style="@style/style_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_runtime"
+            app:layout_constraintStart_toStartOf="@+id/view_content"
+            app:layout_constraintTop_toTopOf="@+id/image_runtime"
+            tools:text="1 hour 45 minutes" />
 
     </android.support.constraint.ConstraintLayout>
 
