@@ -9,4 +9,5 @@
     <color name="textHint">#61000000</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="shadow">#7F000000</color>
 </resources>
