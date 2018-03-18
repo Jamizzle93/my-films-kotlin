@@ -21,7 +21,7 @@ class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val film = mFilms[position]
 
-        val posterUrl = "https://image.tmdb.org/t/p/w500" + film.poster_path
+        val posterUrl = "https://image.tmdb.org/t/p/w780" + film.backdrop_path
         holder.poster.loadUrl(posterUrl)
 
         holder.title.text = film.title
