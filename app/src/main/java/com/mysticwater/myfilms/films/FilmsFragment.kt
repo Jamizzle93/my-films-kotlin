@@ -54,7 +54,6 @@ class FilmsFragment : Fragment(), FilmsContract.View {
                 adapter = filmsAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             }
-            filmsList.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         }
 
         return root
