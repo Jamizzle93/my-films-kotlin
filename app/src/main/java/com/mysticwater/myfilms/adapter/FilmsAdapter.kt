@@ -8,6 +8,8 @@ import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.util.loadUrl
 import kotlinx.android.synthetic.main.view_film_row.view.*
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemListener) : RecyclerView.Adapter<FilmsAdapter.ViewHolder>() {
 
@@ -26,6 +28,14 @@ class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemList
 
         holder.title.text = film.title
 
+//        val decimalFormat = DecimalFormat("#.#")
+//        decimalFormat.roundingMode = RoundingMode.CEILING
+        holder.voteAverage.text = "%.1f".format(film.vote_average / 2)
+
+        holder.voteRating.rating = film.vote_average / 2
+
+        holder.voteCount.text = film.vote_count.toString()
+
         holder.releaseDate.text = film.release_date
 
         holder.itemView.setOnClickListener { itemListener.onFilmClick(film) }
@@ -43,6 +53,9 @@ class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemList
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val poster = view.image_poster
         val title = view.text_title
+        val voteAverage = view.text_vote_average
+        val voteRating = view.rating_bar_vote
+        val voteCount = view.text_vote_count
         val releaseDate = view.text_release_date
     }
 

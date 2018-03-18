@@ -93,7 +93,9 @@ class FilmsRepository(
                 film.overview,
                 film.backdrop_path,
                 film.imdb_id,
-                film.tagline
+                film.tagline,
+                film.vote_average,
+                film.vote_count
         )
         if (filmType == FilmType.UPCOMING) {
             cachedUpcomingFilms.put(cachedFilm.id, cachedFilm)
