@@ -31,8 +31,8 @@ class FilmsFragment : Fragment(), FilmsContract.View {
         super.onResume()
         presenter?.start()
 
-        if (arguments.containsKey(KEY_FILM_TYPE)) {
-            val filmType = FilmType.valueOf(arguments.getString(KEY_FILM_TYPE))
+        if (arguments!!.containsKey(KEY_FILM_TYPE)) {
+            val filmType = FilmType.valueOf(arguments!!.getString(KEY_FILM_TYPE))
             presenter?.loadFilms(filmType, true)
         }
     }
