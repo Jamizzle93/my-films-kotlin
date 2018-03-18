@@ -76,7 +76,9 @@ class FilmsRepository(
 
         val sortedFilms = films.sortedWith(compareBy({ it.release_date }))
         for (film in sortedFilms) {
-            cacheAndPerform(filmType, film, {})
+            if (film.backdrop_path != null) {
+                cacheAndPerform(filmType, film, {})
+            }
         }
         cacheIsDirty = false
     }
