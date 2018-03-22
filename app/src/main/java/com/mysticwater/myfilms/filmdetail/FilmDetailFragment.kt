@@ -2,6 +2,7 @@ package com.mysticwater.myfilms.filmdetail
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -97,6 +98,8 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             if (backdropPath != null) {
                 parentActivity.setToolbarImage(backdropPath)
             }
+
+            parentActivity.setTitle(film.title)
         }
     }
 
