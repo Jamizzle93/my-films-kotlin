@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity() {
 
         val navbar = findViewById<BottomNavigationView>(R.id.nav_bottom)
         navbar.selectedItemId = R.id.menu_now_showing
+        navbar.setOnNavigationItemSelectedListener { item ->
+            selectFragment(item)
+            true
+        }
         navbar.setOnNavigationItemReselectedListener({ item -> selectFragment(item) })
 
         val args = Bundle()
