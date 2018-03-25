@@ -3,6 +3,8 @@ package com.mysticwater.myfilms.network
 import com.mysticwater.myfilms.BuildConfig
 import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.FilmResults
+import com.mysticwater.myfilms.data.source.converters.CalendarAdapter
+import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -25,10 +27,12 @@ interface TheMovieDbService {
     companion object {
         val BASE_URL = "https://api.themoviedb.org/3/"
 
+        val moshi = Moshi.Builder().add(CalendarAdapter()).build()
+
         fun getTmdbService(): TheMovieDbService {
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(MoshiConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
                     .create(TheMovieDbService::class.java)
