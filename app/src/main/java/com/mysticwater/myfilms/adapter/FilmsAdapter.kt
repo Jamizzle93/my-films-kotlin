@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.util.CalendarUtils
 import com.mysticwater.myfilms.util.loadUrl
 import kotlinx.android.synthetic.main.view_film_row.view.*
 import java.math.RoundingMode
@@ -36,7 +37,8 @@ class FilmsAdapter(val films: List<Film>, private val itemListener: FilmItemList
 
         holder.voteCount.text = film.vote_count.toString()
 
-        holder.releaseDate.text = film.release_date
+        val releaseDate = CalendarUtils.calendarToString(film.release_date)
+        holder.releaseDate.text = releaseDate
 
         holder.itemView.setOnClickListener { itemListener.onFilmClick(film) }
     }

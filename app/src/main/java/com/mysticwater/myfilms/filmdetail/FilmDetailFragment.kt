@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.util.CalendarUtils
 
 class FilmDetailFragment : Fragment(), FilmDetailContract.View {
 
@@ -85,7 +86,8 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             text = film.overview
         }
         with(releaseDate) {
-            text = film.release_date
+            val releaseDate = CalendarUtils.calendarToString(film.release_date)
+            text = releaseDate
         }
         with(runtime) {
             text = runtimeToHoursMinutes(film.runtime)
