@@ -31,7 +31,15 @@ class FilmsRemoteDataSource : FilmsDataSource {
 
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
         val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getFilm(filmId)
+
+        tmdbService.getFilmNew(filmId, "en-gb", "release_dates")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    println(result)
+                })
+
+        tmdbService.getFilm(filmId, "en-gb", "release_dates")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->

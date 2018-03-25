@@ -3,6 +3,7 @@ package com.mysticwater.myfilms.network
 import com.mysticwater.myfilms.BuildConfig
 import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.FilmResults
+import com.mysticwater.myfilms.data.source.Films
 import com.mysticwater.myfilms.data.source.converters.CalendarAdapter
 import com.squareup.moshi.Moshi
 import io.reactivex.Observable
@@ -22,7 +23,14 @@ interface TheMovieDbService {
                             @Query("with_release_type") releaseType: Int): Observable<FilmResults>
 
     @GET("movie/{id}?api_key=" + BuildConfig.API_KEY)
-    fun getFilm(@Path("id") id: Int): Observable<Film>
+    fun getFilm(@Path("id") id: Int,
+                @Query("language") language: String,
+                @Query("append_to_response") append: String): Observable<Film>
+
+    @GET("movie/{id}?api_key=" + BuildConfig.API_KEY)
+    fun getFilmNew(@Path("id") id: Int,
+                @Query("language") language: String,
+                @Query("append_to_response") append: String): Observable<Films>
 
     companion object {
         val BASE_URL = "https://api.themoviedb.org/3/"
