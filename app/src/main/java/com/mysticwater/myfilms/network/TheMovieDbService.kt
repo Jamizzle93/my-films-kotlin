@@ -15,6 +15,10 @@ import retrofit2.http.Query
 
 interface TheMovieDbService {
 
+    @GET("movie/now_playing?api_key=" + BuildConfig.API_KEY)
+    fun getNowPlaying(@Query("language") language: String,
+                      @Query("region") region:String): Observable<FilmResults>
+
     @GET("discover/movie?api_key=" + BuildConfig.API_KEY)
     fun getUpcomingReleases(@Query("region") region: String,
                             @Query("release_date.gte") startDate: String,
