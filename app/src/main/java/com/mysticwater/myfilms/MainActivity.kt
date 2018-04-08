@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
         navbar.setOnNavigationItemReselectedListener({ item -> selectFragment(item) })
 
-        val args = Bundle()
-        args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.NOW_SHOWING.name)
-        showFragment(args)
+        showFragment(FilmType.NOW_SHOWING)
     }
 
     fun selectFragment(item: MenuItem) {
@@ -39,27 +37,24 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.menu_now_showing -> {
-                val args = Bundle()
-                args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.NOW_SHOWING.name)
-
-                showFragment(args)
+                showFragment(FilmType.NOW_SHOWING)
             }
             R.id.menu_upcoming -> {
-                val args = Bundle()
-                args.putString(FilmsFragment.KEY_FILM_TYPE, FilmType.UPCOMING.name)
-
-                showFragment(args)
+                showFragment(FilmType.UPCOMING)
             }
             R.id.menu_favourite -> {
-                // TODO - Show fragment
+                showFragment(FilmType.FAVOURITES)
             }
         }
     }
 
-    fun showFragment(bundle: Bundle) {
-        var filmsFragment = FilmsFragment.newInstance()
+    fun showFragment(filmType: FilmType) {
+        val filmsFragment = FilmsFragment.newInstance()
 
-        filmsFragment.arguments = bundle
+        val args = Bundle()
+        args.putString(FilmsFragment.KEY_FILM_TYPE, filmType.name)
+
+        filmsFragment.arguments = args
 
         ActivityUtils.replaceFragmentInActivity(supportFragmentManager, filmsFragment, R.id.layout_content)
 
