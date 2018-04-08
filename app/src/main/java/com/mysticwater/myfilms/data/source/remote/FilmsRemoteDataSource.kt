@@ -42,21 +42,15 @@ class FilmsRemoteDataSource : FilmsDataSource {
     }
 
     fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-
-        val toDate: Calendar = Calendar.getInstance()
-        val toDateStr = dateFormat.format(toDate.time)
-        toDate.add(Calendar.DATE, -14)
-        val fromDateStr = dateFormat.format(toDate.time)
-
         val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getUpcomingReleases("GB", fromDateStr, toDateStr, 3)
+        tmdbService.getNowPlaying("en-GB", "GB")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     callback.onFilmsLoaded(result.results)
                 }, { error ->
                     // TODO - Handle error
+                    println(error.message)
                     error.printStackTrace()
                 })
     }
