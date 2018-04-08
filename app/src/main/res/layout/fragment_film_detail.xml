@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="@+id/layout_parent"
         app:layout_constraintTop_toTopOf="@+id/layout_parent" />
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_film_detail"
         android:layout_width="match_parent"

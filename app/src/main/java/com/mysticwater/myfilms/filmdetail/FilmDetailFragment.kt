@@ -2,19 +2,22 @@ package com.mysticwater.myfilms.filmdetail
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.util.CalendarUtils
+import com.squareup.picasso.Callback
 
 class FilmDetailFragment : Fragment(), FilmDetailContract.View {
 
+    private lateinit var loadingProgress: ProgressBar
+    private lateinit var filmLayout: ConstraintLayout
     private lateinit var title: TextView
     private lateinit var voteAverage: TextView
     private lateinit var voteAverageRatingBar: RatingBar
@@ -41,6 +44,9 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
         val root = inflater.inflate(R.layout.fragment_film_detail, container, false)
         setHasOptionsMenu(true)
         with(root) {
+            loadingProgress = findViewById(R.id.progress_loading)
+            filmLayout = findViewById(R.id.layout_film_detail)
+
             title = findViewById(R.id.text_title)
             voteAverage = findViewById(R.id.text_vote_average)
             voteAverageRatingBar = findViewById(R.id.rating_bar_vote)
@@ -62,7 +68,11 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
 
     override fun setLoadingIndicator(active: Boolean) {
         if (active) {
-            title.text = ""
+            loadingProgress.visibility = View.VISIBLE
+            filmLayout.visibility = View.INVISIBLE
+        } else {
+            loadingProgress.visibility = View.GONE
+            filmLayout.visibility = View.VISIBLE
         }
     }
 
@@ -94,11 +104,21 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
         }
 
         if (activity is FilmDetailActivity) {
+
             val parentActivity: FilmDetailActivity = activity as FilmDetailActivity
 
             val backdropPath: String? = film.backdrop_path
             if (backdropPath != null) {
-                parentActivity.setToolbarImage(backdropPath)
+                parentActivity.setToolbarImage(backdropPath, object : Callback {
+                    override fun onSuccess() {
+                        setLoadingIndicator(false)
+                    }
+
+                    override fun onError() {
+                        setLoadingIndicator(false)
+                    }
+
+                })
             }
 
             parentActivity.setTitle(film.title)

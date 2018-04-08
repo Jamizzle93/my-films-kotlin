@@ -10,6 +10,7 @@ import com.mysticwater.myfilms.data.source.FilmsRepository
 import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
 import com.mysticwater.myfilms.util.replaceFragmentInActivity
 import com.mysticwater.myfilms.util.setupActionBar
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class FilmDetailActivity : AppCompatActivity() {
@@ -30,8 +31,8 @@ class FilmDetailActivity : AppCompatActivity() {
         val filmDetailFragment = supportFragmentManager
                 .findFragmentById(R.id.frame_content) as FilmDetailFragment?
                 ?: FilmDetailFragment.newInstance(filmId).also {
-            replaceFragmentInActivity(it, R.id.frame_content)
-        }
+                    replaceFragmentInActivity(it, R.id.frame_content)
+                }
         // Create the presenter
         val filmsRemoteDataSource = FilmsRemoteDataSource.getInstance()
         val filmsRepository: FilmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource)
@@ -65,7 +66,7 @@ class FilmDetailActivity : AppCompatActivity() {
         return true
     }
 
-    public fun setToolbarImage(backdropPath: String) {
+    public fun setToolbarImage(backdropPath: String, callback: Callback) {
         val toolbarImage = findViewById<ImageView>(R.id.film_backdrop)
 
         val imageUri = getString(R.string.tmdb_backdrop_w1280_url, backdropPath)
@@ -73,7 +74,7 @@ class FilmDetailActivity : AppCompatActivity() {
         picassoBuilder.build()
                 .load(imageUri)
                 .tag(this)
-                .into(toolbarImage)
+                .into(toolbarImage, callback)
     }
 
     fun setTitle(title: String) {

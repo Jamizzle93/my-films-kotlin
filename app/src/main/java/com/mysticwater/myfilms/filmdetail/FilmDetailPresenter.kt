@@ -31,7 +31,6 @@ class FilmDetailPresenter(
                     if (!isActive) {
                         return@onFilmLoaded
                     }
-                    setLoadingIndicator(false)
 
                     showFilm(film)
                 }
