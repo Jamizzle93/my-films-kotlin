@@ -2,6 +2,7 @@ package com.mysticwater.myfilms.films
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.filmdetail.FilmDetailActivity
 
 class FilmsFragment : Fragment(), FilmsContract.View {
-    
+
     override var presenter: FilmsContract.Presenter? = null
 
     override var isActive: Boolean = false
@@ -26,6 +27,7 @@ class FilmsFragment : Fragment(), FilmsContract.View {
 
     private lateinit var loadingProgressView: ProgressBar
     private lateinit var filmsList: RecyclerView
+    private lateinit var noFilmsLayout: ConstraintLayout
 
     override fun onResume() {
         super.onResume()
@@ -54,6 +56,7 @@ class FilmsFragment : Fragment(), FilmsContract.View {
                 adapter = filmsAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             }
+            noFilmsLayout = findViewById(R.id.layout_no_films)
         }
 
         return root
@@ -78,7 +81,11 @@ class FilmsFragment : Fragment(), FilmsContract.View {
             loadingProgressView.visibility = View.INVISIBLE
             filmsList.visibility = View.VISIBLE
         }
+    }
 
+    override fun showNoFilms() {
+        filmsList.visibility = View.INVISIBLE
+        noFilmsLayout.visibility = View.VISIBLE
     }
 
     companion object {

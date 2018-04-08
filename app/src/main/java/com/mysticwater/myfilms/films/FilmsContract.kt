@@ -15,6 +15,8 @@ interface FilmsContract {
 
         fun showLoadingUi(active: Boolean)
 
+        fun showNoFilms()
+
         var isActive: Boolean
 
     }

@@ -31,11 +31,17 @@ class FilmsPresenter(val filmsRepository: FilmsRepository, val view: FilmsContra
                 }
 
                 view.showLoadingUi(false)
-                view.showFilms(filmsToShow)
+
+                if(filmsToShow.isEmpty()) {
+                    view.showNoFilms()
+                } else {
+                    view.showFilms(filmsToShow)
+                }
             }
 
             override fun onDataNotAvailable() {
                 view.showLoadingUi(false)
+                view.showNoFilms()
                 // TODO - Show error
             }
 
