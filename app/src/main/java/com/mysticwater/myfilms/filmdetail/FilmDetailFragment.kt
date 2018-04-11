@@ -26,6 +26,8 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
     private lateinit var overview: TextView
     private lateinit var releaseDate: TextView
     private lateinit var runtime: TextView
+    private lateinit var favourite: TextView
+    private lateinit var imdb: TextView
 
     override var presenter: FilmDetailContract.Presenter? = null
 
@@ -61,6 +63,14 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             overview = findViewById(R.id.text_overview)
             releaseDate = findViewById(R.id.text_release_date)
             runtime = findViewById(R.id.text_runtime)
+            favourite = findViewById(R.id.text_favourite)
+            favourite.setOnClickListener {
+
+            }
+            imdb = findViewById(R.id.text_imdb)
+            imdb.setOnClickListener {
+
+            }
         }
 
         return root

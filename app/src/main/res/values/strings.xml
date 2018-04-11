@@ -8,6 +8,8 @@
 
     <string name="text_hours_minutes">%1$d hours %2$d minutes</string>
     <string name="text_no_films">No films</string>
+    <string name="text_favourite">Favourite</string>
+    <string name="text_imdb">IMDB</string>
 
     <string name="content_desc_poster">Poster</string>
 
