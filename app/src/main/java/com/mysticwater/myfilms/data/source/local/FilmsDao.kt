@@ -18,6 +18,9 @@ interface FilmsDao {
     @Query("SELECT * FROM Films WHERE is_favourite = 1")
     fun getFavouriteFilms(): List<Film>
 
+    @Query("SELECT * FROM Films WHERE id = :filmId")
+    fun getFilmById(filmId: Int): Film?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFilm(film: Film)
 
