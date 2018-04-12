@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import com.mysticwater.myfilms.R
 import com.mysticwater.myfilms.data.source.FilmsRepository
+import com.mysticwater.myfilms.data.source.local.FilmsDatabase
+import com.mysticwater.myfilms.data.source.local.FilmsLocalDataSource
 import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
+import com.mysticwater.myfilms.util.AppExecutors
 import com.mysticwater.myfilms.util.replaceFragmentInActivity
 import com.mysticwater.myfilms.util.setupActionBar
 import com.squareup.picasso.Callback
@@ -35,7 +38,9 @@ class FilmDetailActivity : AppCompatActivity() {
                 }
         // Create the presenter
         val filmsRemoteDataSource = FilmsRemoteDataSource.getInstance()
-        val filmsRepository: FilmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource)
+        val database = FilmsDatabase.getInstance(this)
+        val filmsLocalDatabase = FilmsLocalDataSource.getInstance(AppExecutors(), database.filmsDao())
+        val filmsRepository: FilmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource, filmsLocalDatabase)
         val filmDetailPresenter: FilmDetailContract.Presenter = FilmDetailPresenter(filmId, filmsRepository, filmDetailFragment)
 
         val collapsingToolbar = findViewById<CollapsingToolbarLayout>(R.id.toolbar_collapsing)
