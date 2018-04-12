@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.facebook.stetho.Stetho
 import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsRepository
 import com.mysticwater.myfilms.data.source.local.FilmsDatabase
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Stetho
+        Stetho.initializeWithDefaults(this)
+
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById(R.id.toolbar))
