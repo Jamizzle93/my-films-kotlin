@@ -20,9 +20,9 @@ data class Film constructor(
         @ColumnInfo(name = "tagline") var tagline: String = "",
         @ColumnInfo(name = "vote_average") var vote_average: Float = 0.0f,
         @ColumnInfo(name = "vote_count") var vote_count: Int = 0,
-        @ColumnInfo(name = "is_upcoming") var is_upcoming: Boolean = false,
-        @ColumnInfo(name = "is_now_showing") var is_now_showing: Boolean = false,
-        @ColumnInfo(name = "is_favourite") var is_favourite: Boolean = false
+        @ColumnInfo(name = "upcoming") var upcoming: Boolean = false,
+        @ColumnInfo(name = "now_showing") var now_showing: Boolean = false,
+        @ColumnInfo(name = "favourite") var favourite: Boolean = false
 ) : Comparable<Film> {
 
     override fun compareTo(other: Film) = when {
