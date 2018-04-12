@@ -28,7 +28,7 @@ interface FilmsDao {
     fun deleteAllNowShowingFilms()
 
     @Query("DELETE FROM Films WHERE is_upcoming = 1")
-    fun deleteAllNowUpcomingFilms()
+    fun deleteAllUpcomingFilms()
 
     @Query("DELETE FROM Films WHERE is_favourite = 1 AND id = :filmId")
     fun deleteFavouriteFilm(filmId: Int): Int
