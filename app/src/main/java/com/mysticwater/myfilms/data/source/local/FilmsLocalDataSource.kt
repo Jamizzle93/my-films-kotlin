@@ -62,5 +62,18 @@ class FilmsLocalDataSource private constructor(
         }
     }
 
+    companion object {
+        private var INSTANCE: FilmsLocalDataSource? = null
+
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, filmsDao: FilmsDao): FilmsLocalDataSource {
+            if (INSTANCE == null) {
+                synchronized(FilmsLocalDataSource::javaClass) {
+                    INSTANCE = FilmsLocalDataSource(appExecutors, filmsDao)
+                }
+            }
+            return INSTANCE!!
+        }
+    }
 
 }
