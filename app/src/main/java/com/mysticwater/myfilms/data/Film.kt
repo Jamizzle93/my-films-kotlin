@@ -8,7 +8,7 @@ import java.util.*
 @Entity(tableName = "Films")
 data class Film constructor(
         @PrimaryKey(autoGenerate = true)
-        var key: Int = 0,
+        var key: Int? = 0,
         @ColumnInfo(name = "id") var id: Int = 0,
         @ColumnInfo(name = "title") var title: String = "",
         @ColumnInfo(name = "poster_path") var poster_path: String? = "",
