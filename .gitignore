@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/macos,android,windows,intellij,androidstudio
+# Created by https://www.gitignore.io/api/macos,android,windows,intellij,androidstudio,kotlin
 
 ### Android ###
 # Built application files
@@ -115,6 +115,7 @@ obj/
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/assetWizardSettings.xml
 
 # OS-specific files
 .DS_Store
@@ -128,6 +129,8 @@ Thumbs.db
 # Legacy Eclipse project files
 .classpath
 .project
+.cproject
+.settings/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -200,6 +203,9 @@ cmake-build-debug/
 # Cursive Clojure plugin
 .idea/replstate.xml
 
+# Ruby plugin and RubyMine
+/.rakeTasks
+
 # Crashlytics plugin (for Android Studio and IntelliJ)
 
 ### Intellij Patch ###
@@ -212,6 +218,24 @@ cmake-build-debug/
 
 # Sonarlint plugin
 .idea/sonarlint
+
+### Kotlin ###
+# Compiled class file
+
+# Log file
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+
+# Package Files #
+*.jar
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 
 ### macOS ###
 *.DS_Store
@@ -256,4 +280,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/macos,android,windows,intellij,androidstudio
+
+# End of https://www.gitignore.io/api/macos,android,windows,intellij,androidstudio,kotlin
