@@ -50,8 +50,7 @@ class FilmsRepository(
         filmsRemoteDataSource.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 refreshCache(filmType, films)
-                // TODO
-                //refreshLocalDataSource(tasks)
+                refreshLocalDataSource(filmType, films)
 
                 var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
                 if (filmType == FilmType.NOW_SHOWING) {
@@ -83,6 +82,13 @@ class FilmsRepository(
             }
         }
         cacheIsDirty = false
+    }
+
+    private fun refreshLocalDataSource(filmType: FilmType, films: List<Film>) {
+        filmsLocalDataSource.deleteAllFilms(filmType)
+        for (film in films) {
+            filmsLocalDataSource.saveFilm(film)
+        }
     }
 
     private inline fun cacheAndPerform(filmType: FilmType, film: Film, perform: (Film) -> Unit) {
