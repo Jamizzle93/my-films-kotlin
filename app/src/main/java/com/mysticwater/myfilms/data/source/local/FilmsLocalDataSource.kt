@@ -8,7 +8,7 @@ import com.mysticwater.myfilms.util.AppExecutors
 class FilmsLocalDataSource private constructor(
         val appExecutors: AppExecutors,
         val filmsDao: FilmsDao
-): FilmsDataSource {
+) : FilmsDataSource {
 
     override fun getFilms(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
         appExecutors.diskIO.execute {
@@ -34,7 +34,7 @@ class FilmsLocalDataSource private constructor(
 
 
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
-        appExecutors.diskIO.execute{
+        appExecutors.diskIO.execute {
             val film = filmsDao.getFilmById(filmId)
             appExecutors.mainThread.execute {
                 if (film != null) {
@@ -49,6 +49,16 @@ class FilmsLocalDataSource private constructor(
     override fun saveFilm(film: Film) {
         appExecutors.diskIO.execute {
             filmsDao.insertFilm(film)
+        }
+    }
+
+    override fun deleteAllFilms(filmType: FilmType) {
+        appExecutors.diskIO.execute {
+            if (filmType == FilmType.NOW_SHOWING) {
+                filmsDao.deleteAllNowShowingFilms()
+            } else if (filmType == FilmType.UPCOMING) {
+                filmsDao.deleteAllUpcomingFilms()
+            }
         }
     }
 

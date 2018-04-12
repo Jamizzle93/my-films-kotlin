@@ -45,6 +45,10 @@ class FilmsRemoteDataSource : FilmsDataSource {
         // Only handled in FilmsLocalDataSource
     }
 
+    override fun deleteAllFilms(filmType: FilmType) {
+        // Only handled in FilmsLocalDataSource
+    }
+
     fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
         val tmdbService = TheMovieDbService.getTmdbService()
         tmdbService.getNowPlaying("en-GB", "GB")

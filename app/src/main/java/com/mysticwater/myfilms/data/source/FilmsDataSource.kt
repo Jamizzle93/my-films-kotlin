@@ -31,4 +31,6 @@ interface FilmsDataSource {
     fun getFilm(filmId: Int, callback: GetFilmCallback)
 
     fun saveFilm(film: Film)
+
+    fun deleteAllFilms(filmType: FilmType)
 }
