@@ -9,13 +9,13 @@ import com.mysticwater.myfilms.data.Film
 @Dao
 interface FilmsDao {
 
-    @Query("SELECT * FROM Films WHERE is_now_showing = 1")
+    @Query("SELECT * FROM Films WHERE now_showing = 1")
     fun getNowShowingFilms(): List<Film>
 
-    @Query("SELECT * FROM Films WHERE is_upcoming = 1")
+    @Query("SELECT * FROM Films WHERE upcoming = 1")
     fun getUpcomingFilms(): List<Film>
 
-    @Query("SELECT * FROM Films WHERE is_favourite = 1")
+    @Query("SELECT * FROM Films WHERE favourite = 1")
     fun getFavouriteFilms(): List<Film>
 
     @Query("SELECT * FROM Films WHERE id = :filmId")
@@ -24,12 +24,12 @@ interface FilmsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFilm(film: Film)
 
-    @Query("DELETE FROM Films WHERE is_now_showing = 1")
+    @Query("DELETE FROM Films WHERE now_showing = 1")
     fun deleteAllNowShowingFilms()
 
-    @Query("DELETE FROM Films WHERE is_upcoming = 1")
+    @Query("DELETE FROM Films WHERE upcoming = 1")
     fun deleteAllUpcomingFilms()
 
-    @Query("DELETE FROM Films WHERE is_favourite = 1 AND id = :filmId")
+    @Query("DELETE FROM Films WHERE favourite = 1 AND id = :filmId")
     fun deleteFavouriteFilm(filmId: Int): Int
 }
