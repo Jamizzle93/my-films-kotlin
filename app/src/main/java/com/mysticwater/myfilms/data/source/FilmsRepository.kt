@@ -1,10 +1,12 @@
 package com.mysticwater.myfilms.data.source
 
 import com.mysticwater.myfilms.data.Film
+import com.mysticwater.myfilms.data.source.local.FilmsLocalDataSource
 import java.util.*
 
 class FilmsRepository(
-        val filmsRemoteDataSource: FilmsDataSource
+        val filmsRemoteDataSource: FilmsDataSource,
+        val filmsLocalDataSource: FilmsDataSource
 ) : FilmsDataSource {
 
     var cachedNowShowingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
@@ -119,9 +121,9 @@ class FilmsRepository(
          * @return the [TasksRepository] instance
          */
         @JvmStatic
-        fun getInstance(filmsRemoteDataSource: FilmsDataSource): FilmsRepository {
+        fun getInstance(filmsRemoteDataSource: FilmsDataSource, filmsLocalDataSource: FilmsDataSource): FilmsRepository {
             if (needNewInstance) {
-                INSTANCE = FilmsRepository(filmsRemoteDataSource)
+                INSTANCE = FilmsRepository(filmsRemoteDataSource, filmsLocalDataSource)
                 needNewInstance = false
             }
             return INSTANCE

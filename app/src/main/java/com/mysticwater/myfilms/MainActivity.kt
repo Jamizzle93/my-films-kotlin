@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsRepository
+import com.mysticwater.myfilms.data.source.local.FilmsDatabase
+import com.mysticwater.myfilms.data.source.local.FilmsLocalDataSource
 import com.mysticwater.myfilms.data.source.remote.FilmsRemoteDataSource
 import com.mysticwater.myfilms.films.FilmsFragment
 import com.mysticwater.myfilms.films.FilmsPresenter
 import com.mysticwater.myfilms.util.ActivityUtils
+import com.mysticwater.myfilms.util.AppExecutors
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,8 +61,11 @@ class MainActivity : AppCompatActivity() {
 
         ActivityUtils.replaceFragmentInActivity(supportFragmentManager, filmsFragment, R.id.layout_content)
 
+
         val filmsRemoteDataSource = FilmsRemoteDataSource.getInstance()
-        val filmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource)
+        val database = FilmsDatabase.getInstance(this)
+        val filmsLocalDataSource = FilmsLocalDataSource.getInstance(AppExecutors(), database.filmsDao())
+        val filmsRepository = FilmsRepository.getInstance(filmsRemoteDataSource, filmsLocalDataSource)
         val filmsPresenter: FilmsPresenter = FilmsPresenter(filmsRepository, filmsFragment)
     }
 
