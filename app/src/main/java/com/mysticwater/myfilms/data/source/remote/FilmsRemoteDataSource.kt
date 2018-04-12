@@ -41,6 +41,10 @@ class FilmsRemoteDataSource : FilmsDataSource {
                 })
     }
 
+    override fun saveFilm(film: Film) {
+        // Only handled in FilmsLocalDataSource
+    }
+
     fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
         val tmdbService = TheMovieDbService.getTmdbService()
         tmdbService.getNowPlaying("en-GB", "GB")

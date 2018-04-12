@@ -46,4 +46,11 @@ class FilmsLocalDataSource private constructor(
         }
     }
 
+    override fun saveFilm(film: Film) {
+        appExecutors.diskIO.execute {
+            filmsDao.insertFilm(film)
+        }
+    }
+
+
 }

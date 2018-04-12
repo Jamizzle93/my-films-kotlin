@@ -29,4 +29,6 @@ interface FilmsDataSource {
     fun getFilms(filmType: FilmType, callback: LoadFilmsCallback)
 
     fun getFilm(filmId: Int, callback: GetFilmCallback)
+
+    fun saveFilm(film: Film)
 }
