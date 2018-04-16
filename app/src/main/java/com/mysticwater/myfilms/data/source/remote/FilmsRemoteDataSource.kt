@@ -46,7 +46,12 @@ class FilmsRemoteDataSource : FilmsDataSource {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
-                    callback.onFilmsLoaded(result.results)
+                    val films: MutableList<Film> = mutableListOf()
+                    for (film in result.results) {
+                        film.now_showing = true
+                        films.add(film)
+                    }
+                    callback.onFilmsLoaded(films)
                 }, { error ->
                     // TODO - Handle error
                     println(error.message)
@@ -67,7 +72,12 @@ class FilmsRemoteDataSource : FilmsDataSource {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
-                    callback.onFilmsLoaded(result.results)
+                    val films: MutableList<Film> = mutableListOf()
+                    for (film in result.results) {
+                        film.upcoming = true
+                        films.add(film)
+                    }
+                    callback.onFilmsLoaded(films)
                 }, { error ->
                     // TODO - Handle error
                     error.printStackTrace()
