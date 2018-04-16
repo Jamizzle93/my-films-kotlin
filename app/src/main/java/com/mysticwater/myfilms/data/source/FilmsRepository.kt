@@ -11,6 +11,7 @@ class FilmsRepository(
 
     var cachedNowShowingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
     var cachedUpcomingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+    var cachedFavouriteFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
 
     var cacheIsDirty = false
 
@@ -21,11 +22,15 @@ class FilmsRepository(
             cachedFilms = cachedNowShowingFilms
         } else if (filmType == FilmType.UPCOMING) {
             cachedFilms = cachedUpcomingFilms
+        } else if (filmType == FilmType.FAVOURITES) {
+            cachedFilms = cachedFavouriteFilms
         }
 
         if (cachedFilms.isNotEmpty() && !cacheIsDirty) {
             callback.onFilmsLoaded(ArrayList(cachedFilms.values))
             return
+        } else if (filmType == FilmType.FAVOURITES) {
+            getFilmsFromLocalDataSource(filmType, callback)
         } else {
             getFilmsFromRemoteDataSource(filmType, callback)
         }
@@ -81,11 +86,37 @@ class FilmsRepository(
         })
     }
 
+    private fun getFilmsFromLocalDataSource(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
+        filmsLocalDataSource.getFilms(filmType, object: FilmsDataSource.LoadFilmsCallback {
+            override fun onFilmsLoaded(films: List<Film>) {
+                refreshCache(filmType, films)
+
+                var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
+                if (filmType == FilmType.NOW_SHOWING) {
+                    cachedFilms = cachedNowShowingFilms
+                } else if (filmType == FilmType.UPCOMING) {
+                    cachedFilms = cachedUpcomingFilms
+                } else if (filmType == FilmType.FAVOURITES) {
+                    cachedFilms = cachedFavouriteFilms
+                }
+
+                callback.onFilmsLoaded(java.util.ArrayList(cachedFilms.values))
+            }
+
+
+            override fun onDataNotAvailable() {
+                callback.onDataNotAvailable()
+            }
+        })
+    }
+
     private fun refreshCache(filmType: FilmType, films: List<Film>) {
         if (filmType == FilmType.UPCOMING) {
             cachedUpcomingFilms.clear()
         } else if (filmType == FilmType.NOW_SHOWING) {
             cachedNowShowingFilms.clear()
+        } else if (filmType == FilmType.FAVOURITES) {
+            cachedFavouriteFilms.clear()
         }
 
         val sortedFilms = films.sortedWith(compareBy({ it.release_date }))
@@ -123,6 +154,8 @@ class FilmsRepository(
             cachedUpcomingFilms.put(cachedFilm.id, cachedFilm)
         } else if (filmType == FilmType.NOW_SHOWING) {
             cachedNowShowingFilms.put(cachedFilm.id, cachedFilm)
+        } else if (filmType == FilmType.FAVOURITES) {
+            cachedFavouriteFilms.put(cachedFilm.id, cachedFilm)
         }
         perform(cachedFilm)
     }
