@@ -20,6 +20,8 @@ interface FilmDetailContract {
     interface Presenter : BasePresenter {
 
         fun getFilm()
+
+        fun favouriteFilm(film: Film)
     }
 
 }

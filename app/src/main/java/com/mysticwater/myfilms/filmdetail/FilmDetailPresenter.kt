@@ -47,4 +47,9 @@ class FilmDetailPresenter(
         })
     }
 
+
+    override fun favouriteFilm(film: Film) {
+        filmsRepository.favouriteFilm(film)
+    }
+
 }

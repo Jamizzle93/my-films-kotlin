@@ -54,6 +54,10 @@ class FilmsRepository(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    public fun favouriteFilm(film: Film) {
+        film.favourite = true
+        filmsLocalDataSource.saveFilm(film)
+    }
 
     private fun getFilmsFromRemoteDataSource(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
         filmsRemoteDataSource.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {

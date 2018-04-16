@@ -64,9 +64,6 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             releaseDate = findViewById(R.id.text_release_date)
             runtime = findViewById(R.id.text_runtime)
             favourite = findViewById(R.id.text_favourite)
-            favourite.setOnClickListener {
-
-            }
             imdb = findViewById(R.id.text_imdb)
             imdb.setOnClickListener {
 
@@ -132,6 +129,10 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             }
 
             parentActivity.setTitle(film.title)
+        }
+
+        favourite.setOnClickListener {
+            presenter?.favouriteFilm(film)
         }
     }
 
