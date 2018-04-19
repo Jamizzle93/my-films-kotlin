@@ -1,35 +1,27 @@
 package com.mysticwater.myfilms.data.source.converters
 
 import android.arch.persistence.room.TypeConverter
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class Converters {
 
     @TypeConverter
-    fun fromDateString(calendarStr: String?): Calendar? {
-        try {
+    fun fromTimestamp(timestamp: Long?): Calendar? {
+        return if (timestamp == null) {
+            null
+        } else {
             val calendar = Calendar.getInstance()
-            calendar.time = MOVIE_DB_DATE_FORMAT.parse(calendarStr)
+            calendar.timeInMillis = timestamp
             return calendar
-        } catch (e: ParseException) {
-            return null
         }
-
     }
 
     @TypeConverter
-    fun calendarToString(calendar: Calendar?): String? {
+    fun toTimestamp(calendar: Calendar?): Long? {
         return if (calendar == null) {
             null
         } else {
-            MOVIE_DB_DATE_FORMAT.format(calendar.time)
+            return calendar.timeInMillis
         }
     }
-
-    companion object {
-        private val MOVIE_DB_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.UK)
-    }
-
 }
