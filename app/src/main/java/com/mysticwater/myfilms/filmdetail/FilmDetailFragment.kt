@@ -131,6 +131,14 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             parentActivity.setTitle(film.title)
         }
 
+        var favouriteDrawable = R.drawable.ic_favorite
+        if (film.favourite) {
+            favouriteDrawable = R.drawable.ic_favorite_fill
+        }
+
+        favourite.setCompoundDrawablesWithIntrinsicBounds(0, favouriteDrawable, 0, 0)
+
+
         favourite.setOnClickListener {
             presenter?.favouriteFilm(film)
         }

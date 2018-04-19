@@ -32,5 +32,7 @@ interface FilmsDataSource {
 
     fun saveFilm(film: Film)
 
+    fun updateFilm(film: Film)
+
     fun deleteAllFilms(filmType: FilmType)
 }

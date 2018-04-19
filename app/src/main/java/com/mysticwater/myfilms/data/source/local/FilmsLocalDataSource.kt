@@ -4,6 +4,7 @@ import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.data.source.FilmsDataSource
 import com.mysticwater.myfilms.util.AppExecutors
+import java.util.*
 
 class FilmsLocalDataSource private constructor(
         val appExecutors: AppExecutors,
@@ -15,9 +16,9 @@ class FilmsLocalDataSource private constructor(
             var films: List<Film> = listOf()
 
             if (filmType == FilmType.NOW_SHOWING) {
-                films = filmsDao.getNowShowingFilms()
+                films = getNowShowingFilms()
             } else if (filmType == FilmType.UPCOMING) {
-                films = filmsDao.getUpcomingFilms()
+                films = getUpcomingFilms()
             } else if (filmType == FilmType.FAVOURITES) {
                 films = filmsDao.getFavouriteFilms()
             }
@@ -32,6 +33,24 @@ class FilmsLocalDataSource private constructor(
         }
     }
 
+    fun getNowShowingFilms(): List<Film> {
+        val toDateCal: Calendar = Calendar.getInstance()
+        val toDate = toDateCal.timeInMillis
+        toDateCal.add(Calendar.DATE, -14)
+        val fromDate = toDateCal.timeInMillis
+
+        return filmsDao.getFilms(fromDate, toDate)
+    }
+
+    fun getUpcomingFilms(): List<Film> {
+        val fromDateCal: Calendar = Calendar.getInstance()
+        fromDateCal.add(Calendar.DATE, 1)
+        val fromDate = fromDateCal.timeInMillis
+        fromDateCal.add(Calendar.DATE, 14)
+        val toDate = fromDateCal.timeInMillis
+
+        return filmsDao.getFilms(fromDate, toDate)
+    }
 
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
         appExecutors.diskIO.execute {
@@ -52,14 +71,39 @@ class FilmsLocalDataSource private constructor(
         }
     }
 
+    override fun updateFilm(film: Film) {
+        appExecutors.diskIO.execute {
+            filmsDao.updateFilm(film)
+        }
+    }
+
     override fun deleteAllFilms(filmType: FilmType) {
         appExecutors.diskIO.execute {
             if (filmType == FilmType.NOW_SHOWING) {
-                filmsDao.deleteAllNowShowingFilms()
+                deleteAllNowShowingFilms()
             } else if (filmType == FilmType.UPCOMING) {
-                filmsDao.deleteAllUpcomingFilms()
+                deleteAllUpcomingFilms()
             }
         }
+    }
+
+    fun deleteAllNowShowingFilms() {
+        val toDateCal: Calendar = Calendar.getInstance()
+        val toDate = toDateCal.timeInMillis
+        toDateCal.add(Calendar.DATE, -14)
+        val fromDate = toDateCal.timeInMillis
+
+        return filmsDao.deleteFilms(fromDate, toDate)
+    }
+
+    fun deleteAllUpcomingFilms() {
+        val fromDateCal: Calendar = Calendar.getInstance()
+        fromDateCal.add(Calendar.DATE, 1)
+        val fromDate = fromDateCal.timeInMillis
+        fromDateCal.add(Calendar.DATE, 14)
+        val toDate = fromDateCal.timeInMillis
+
+        return filmsDao.deleteFilms(fromDate, toDate)
     }
 
     companion object {

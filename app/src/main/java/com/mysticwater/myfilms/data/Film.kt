@@ -1,17 +1,13 @@
 package com.mysticwater.myfilms.data
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverters
+import android.arch.persistence.room.*
 import com.mysticwater.myfilms.data.source.converters.Converters
 import java.util.*
 
 @Entity(tableName = "Films")
 @TypeConverters(Converters::class)
 data class Film constructor(
-        @PrimaryKey(autoGenerate = true)
-        var key: Int? = null,
+        @PrimaryKey
         @ColumnInfo(name = "id") var id: Int = 0,
         @ColumnInfo(name = "title") var title: String = "",
         @ColumnInfo(name = "poster_path") var poster_path: String? = "",
@@ -23,8 +19,6 @@ data class Film constructor(
         @ColumnInfo(name = "tagline") var tagline: String = "",
         @ColumnInfo(name = "vote_average") var vote_average: Float = 0.0f,
         @ColumnInfo(name = "vote_count") var vote_count: Int = 0,
-        @ColumnInfo(name = "upcoming") var upcoming: Boolean = false,
-        @ColumnInfo(name = "now_showing") var now_showing: Boolean = false,
         @ColumnInfo(name = "favourite") var favourite: Boolean = false
 ) : Comparable<Film> {
 

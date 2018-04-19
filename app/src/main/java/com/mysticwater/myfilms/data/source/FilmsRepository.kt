@@ -39,6 +39,7 @@ class FilmsRepository(
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
         filmsRemoteDataSource.getFilm(filmId, object : FilmsDataSource.GetFilmCallback {
             override fun onFilmLoaded(film: Film) {
+                filmsLocalDataSource.updateFilm(film)
                 callback.onFilmLoaded(film)
 //                cacheAndPerform(film) {
 //                    callback.onFilmLoaded(it)
@@ -55,13 +56,17 @@ class FilmsRepository(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun updateFilm(film: Film) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun deleteAllFilms(filmType: FilmType) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     public fun favouriteFilm(film: Film) {
         film.favourite = true
-        filmsLocalDataSource.saveFilm(film)
+        filmsLocalDataSource.updateFilm(film)
     }
 
     private fun getFilmsFromRemoteDataSource(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
@@ -137,7 +142,6 @@ class FilmsRepository(
 
     private inline fun cacheAndPerform(filmType: FilmType, film: Film, perform: (Film) -> Unit) {
         val cachedFilm = Film(
-                null,
                 film.id,
                 film.title,
                 film.poster_path,

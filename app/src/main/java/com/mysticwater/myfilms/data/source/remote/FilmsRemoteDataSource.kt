@@ -36,19 +36,29 @@ class FilmsRemoteDataSource : FilmsDataSource {
         // Only handled in FilmsLocalDataSource
     }
 
+    override fun updateFilm(film: Film) {
+        // Only handled in FilmsLocalDataSource
+    }
+
     override fun deleteAllFilms(filmType: FilmType) {
         // Only handled in FilmsLocalDataSource
     }
 
     fun getNowShowingFilms(callback: FilmsDataSource.LoadFilmsCallback) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+
+        val toDate: Calendar = Calendar.getInstance()
+        val toDateStr = dateFormat.format(toDate.time)
+        toDate.add(Calendar.DATE, -14)
+        val fromDateStr = dateFormat.format(toDate.time)
+
         val tmdbService = TheMovieDbService.getTmdbService()
-        tmdbService.getNowPlaying("en-GB", "GB")
+        tmdbService.getUpcomingReleases("GB", fromDateStr, toDateStr, 3)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     val films: MutableList<Film> = mutableListOf()
                     for (film in result.results) {
-                        film.now_showing = true
                         films.add(film)
                     }
                     callback.onFilmsLoaded(films)
@@ -63,6 +73,7 @@ class FilmsRemoteDataSource : FilmsDataSource {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd");
 
         val fromDate: Calendar = Calendar.getInstance()
+        fromDate.add(Calendar.DATE, 1)
         val fromDateStr = dateFormat.format(fromDate.time)
         fromDate.add(Calendar.DATE, 14)
         val toDateStr = dateFormat.format(fromDate.time)
@@ -74,7 +85,6 @@ class FilmsRemoteDataSource : FilmsDataSource {
                 .subscribe({ result ->
                     val films: MutableList<Film> = mutableListOf()
                     for (film in result.results) {
-                        film.upcoming = true
                         films.add(film)
                     }
                     callback.onFilmsLoaded(films)
