@@ -30,7 +30,7 @@ interface FilmsDao {
     @Query("DELETE FROM Films WHERE release_date < :date")
     fun deleteOldFilms(date: Long)
 
-    @Query("DELETE FROM Films WHERE release_date >= :fromDate AND release_date <= :toDate")
+    @Query("DELETE FROM Films WHERE release_date >= :fromDate AND release_date <= :toDate AND favourite = 0")
     fun deleteFilms(fromDate: Long, toDate: Long)
 
     @Query("DELETE FROM Films WHERE favourite = 1 AND id = :filmId")
