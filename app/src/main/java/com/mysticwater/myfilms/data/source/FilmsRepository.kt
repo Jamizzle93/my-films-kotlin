@@ -37,13 +37,26 @@ class FilmsRepository(
     }
 
     override fun getFilm(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
+        filmsLocalDataSource.getFilm(filmId, object : FilmsDataSource.GetFilmCallback {
+            override fun onFilmLoaded(film: Film) {
+                if (film.runtime > 0) {
+                    callback.onFilmLoaded(film)
+                } else {
+                    getFilmFromRemoteDataSource(filmId, callback)
+                }
+            }
+
+            override fun onDataNotAvailable() {
+                getFilmFromRemoteDataSource(filmId, callback)
+            }
+        })
+    }
+
+    fun getFilmFromRemoteDataSource(filmId: Int, callback: FilmsDataSource.GetFilmCallback) {
         filmsRemoteDataSource.getFilm(filmId, object : FilmsDataSource.GetFilmCallback {
             override fun onFilmLoaded(film: Film) {
                 filmsLocalDataSource.updateFilm(film)
                 callback.onFilmLoaded(film)
-//                cacheAndPerform(film) {
-//                    callback.onFilmLoaded(it)
-//                }
             }
 
             override fun onDataNotAvailable() {
