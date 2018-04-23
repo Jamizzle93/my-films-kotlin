@@ -21,7 +21,7 @@ interface FilmsDao {
     @Query("SELECT * FROM Films WHERE id = :filmId")
     fun getFilmById(filmId: Int): Film?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertFilm(film: Film)
 
     @Update()
