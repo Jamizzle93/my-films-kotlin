@@ -106,6 +106,11 @@ class FilmsRepository(
             override fun onFilmsLoaded(films: List<Film>) {
                 refreshCache(filmType, films)
 
+                if (filmType == FilmType.FAVOURITES) {
+                    callback.onFilmsLoaded(films)
+                    return
+                }
+
                 var cachedFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
                 if (filmType == FilmType.NOW_SHOWING) {
                     cachedFilms = cachedNowShowingFilms
