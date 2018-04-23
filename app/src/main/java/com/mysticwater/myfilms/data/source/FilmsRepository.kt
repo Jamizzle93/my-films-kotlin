@@ -11,7 +11,6 @@ class FilmsRepository(
 
     var cachedNowShowingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
     var cachedUpcomingFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
-    var cachedFavouriteFilms: LinkedHashMap<Int, Film> = LinkedHashMap()
 
     var cacheIsDirty = false
 
@@ -22,8 +21,6 @@ class FilmsRepository(
             cachedFilms = cachedNowShowingFilms
         } else if (filmType == FilmType.UPCOMING) {
             cachedFilms = cachedUpcomingFilms
-        } else if (filmType == FilmType.FAVOURITES) {
-            cachedFilms = cachedFavouriteFilms
         }
 
         if (cachedFilms.isNotEmpty() && !cacheIsDirty) {
@@ -78,7 +75,7 @@ class FilmsRepository(
     }
 
     public fun favouriteFilm(film: Film) {
-        film.favourite = true
+        film.favourite = !film.favourite
         filmsLocalDataSource.updateFilm(film)
     }
 
@@ -105,7 +102,7 @@ class FilmsRepository(
     }
 
     private fun getFilmsFromLocalDataSource(filmType: FilmType, callback: FilmsDataSource.LoadFilmsCallback) {
-        filmsLocalDataSource.getFilms(filmType, object: FilmsDataSource.LoadFilmsCallback {
+        filmsLocalDataSource.getFilms(filmType, object : FilmsDataSource.LoadFilmsCallback {
             override fun onFilmsLoaded(films: List<Film>) {
                 refreshCache(filmType, films)
 
@@ -114,8 +111,6 @@ class FilmsRepository(
                     cachedFilms = cachedNowShowingFilms
                 } else if (filmType == FilmType.UPCOMING) {
                     cachedFilms = cachedUpcomingFilms
-                } else if (filmType == FilmType.FAVOURITES) {
-                    cachedFilms = cachedFavouriteFilms
                 }
 
                 callback.onFilmsLoaded(java.util.ArrayList(cachedFilms.values))
@@ -133,8 +128,6 @@ class FilmsRepository(
             cachedUpcomingFilms.clear()
         } else if (filmType == FilmType.NOW_SHOWING) {
             cachedNowShowingFilms.clear()
-        } else if (filmType == FilmType.FAVOURITES) {
-            cachedFavouriteFilms.clear()
         }
 
         val sortedFilms = films.sortedWith(compareBy({ it.release_date }))
@@ -171,8 +164,6 @@ class FilmsRepository(
             cachedUpcomingFilms.put(cachedFilm.id, cachedFilm)
         } else if (filmType == FilmType.NOW_SHOWING) {
             cachedNowShowingFilms.put(cachedFilm.id, cachedFilm)
-        } else if (filmType == FilmType.FAVOURITES) {
-            cachedFavouriteFilms.put(cachedFilm.id, cachedFilm)
         }
         perform(cachedFilm)
     }

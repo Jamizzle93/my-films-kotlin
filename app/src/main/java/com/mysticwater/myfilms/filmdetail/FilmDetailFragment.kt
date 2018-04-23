@@ -140,6 +140,11 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
 
 
         favourite.setOnClickListener {
+            if (film.favourite) {
+                favourite.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite, 0, 0)
+            } else {
+                favourite.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_fill, 0, 0)
+            }
             presenter?.favouriteFilm(film)
         }
     }
