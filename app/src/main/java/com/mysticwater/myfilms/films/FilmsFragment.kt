@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -20,6 +18,7 @@ import com.mysticwater.myfilms.data.Film
 import com.mysticwater.myfilms.data.source.FilmType
 import com.mysticwater.myfilms.filmdetail.FilmDetailActivity
 
+
 class FilmsFragment : Fragment(), FilmsContract.View {
 
     override var presenter: FilmsContract.Presenter? = null
@@ -32,12 +31,14 @@ class FilmsFragment : Fragment(), FilmsContract.View {
     private lateinit var filmsList: RecyclerView
     private lateinit var noFilmsLayout: ConstraintLayout
 
+    lateinit var filmType: FilmType
+
     override fun onResume() {
         super.onResume()
         presenter?.start()
 
         if (arguments!!.containsKey(KEY_FILM_TYPE)) {
-            val filmType = FilmType.valueOf(arguments!!.getString(KEY_FILM_TYPE))
+            filmType = FilmType.valueOf(arguments!!.getString(KEY_FILM_TYPE))
             presenter?.loadFilms(filmType, true)
         }
     }
@@ -63,7 +64,9 @@ class FilmsFragment : Fragment(), FilmsContract.View {
             noFilmsLayout = findViewById(R.id.layout_no_films)
         }
 
-        swipeContainer.setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
+        swipeContainer.setOnRefreshListener {
+            presenter?.loadFilms(filmType, true)
+        }
 
         return root
     }
@@ -80,6 +83,8 @@ class FilmsFragment : Fragment(), FilmsContract.View {
     }
 
     override fun showLoadingUi(active: Boolean) {
+        swipeContainer.isRefreshing = active
+
         if (active) {
             loadingProgressView.visibility = View.VISIBLE
             filmsList.visibility = View.INVISIBLE
