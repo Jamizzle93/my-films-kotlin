@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -26,6 +28,7 @@ class FilmsFragment : Fragment(), FilmsContract.View {
         get() = isAdded
 
     private lateinit var loadingProgressView: ProgressBar
+    private lateinit var swipeContainer: SwipeRefreshLayout
     private lateinit var filmsList: RecyclerView
     private lateinit var noFilmsLayout: ConstraintLayout
 
@@ -52,12 +55,15 @@ class FilmsFragment : Fragment(), FilmsContract.View {
 
         with(root) {
             loadingProgressView = findViewById(R.id.progress_loading)
+            swipeContainer = findViewById(R.id.swipe_container)
             filmsList = (findViewById<RecyclerView>(R.id.recycler_view_films)).apply {
                 adapter = filmsAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
             }
             noFilmsLayout = findViewById(R.id.layout_no_films)
         }
+
+        swipeContainer.setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimary))
 
         return root
     }
