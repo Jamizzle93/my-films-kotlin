@@ -1,5 +1,7 @@
 package com.mysticwater.myfilms.filmdetail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -65,9 +67,6 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
             runtime = findViewById(R.id.text_runtime)
             favourite = findViewById(R.id.text_favourite)
             imdb = findViewById(R.id.text_imdb)
-            imdb.setOnClickListener {
-
-            }
         }
 
         return root
@@ -146,6 +145,14 @@ class FilmDetailFragment : Fragment(), FilmDetailContract.View {
                 favourite.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_fill, 0, 0)
             }
             presenter?.favouriteFilm(film)
+        }
+
+        imdb.setOnClickListener {
+            val url = "http://www.imdb.com/title/" + film.imdb_id
+            val uri = Uri.parse(url)
+
+            val imdbIntent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(imdbIntent)
         }
     }
 
