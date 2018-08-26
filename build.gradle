@@ -29,4 +29,5 @@ task clean(type: Delete) {
 // Define versions
 ext {
     roomVersion = "1.0.0"
+    daggerVersion = "2.11"
 }
