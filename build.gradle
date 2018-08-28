@@ -28,6 +28,18 @@ task clean(type: Delete) {
 
 // Define versions
 ext {
-    roomVersion = "1.0.0"
-    daggerVersion = "2.11"
+    minSdkVersion = 21
+    targetSdkVersion = 28
+    compileSdkVersion = 28
+    buildToolsVersion = '27.0.3'
+
+    supportVersion = '27.1.1'
+    constraintLayoutVersion = '1.1.2'
+
+    retrofitVersion = '2.4.0'
+    rxJavaVersion = '2.2.1'
+    rxAndroidVersion = '2.1.0'
+    rxKotlinVersion = '2.3.0'
+    okHttpVersion = '3.11.0'
+
 }
